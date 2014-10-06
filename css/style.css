@@ -1,0 +1,79 @@
+#canvas-painter{
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	font: 12px/16px 'Open Sans',sans-serif;
+	border-style: solid;
+	border-width:1px;
+
+	-webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.panel{
+	position:absolute;
+	border-style: solid;
+	border-width:1px;
+}
+
+.panel .header{
+	position:absolute;
+	top:0;left:0;right:0;
+	height: 20px;line-height: 17px;
+	border-bottom-style: solid;
+	border-bottom-width:1px;
+}
+
+.panel .header .title{
+	position:absolute;
+	top:0;
+	left:0;
+	right:20px;
+	bottom: 0;
+	padding:0 10px;
+	overflow: hidden;
+	cursor:move;
+}
+.panel .header .close{
+	position:absolute;
+	top:0;
+	right:0;
+	bottom: 0;	
+	width:20px;
+	text-align: center;	
+	cursor: pointer;
+}
+.panel .header .close span{
+	display: inline-block;
+	font-size: 21px;
+	-webkit-transform: rotate(45deg);
+	-moz-transform: rotate(45deg);
+	transform: rotate(45deg);
+}
+
+.panel .content{
+	position: absolute;
+	top:25px;
+	left:5px;
+	right:5px;
+	bottom: 15px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.panel .resizer{
+	position: absolute;
+	bottom: 1px;
+	right: 1px;
+	width:0;
+	height:0;
+	border-style: solid;
+	border-width: 5px;
+	cursor:nw-resize;
+}
