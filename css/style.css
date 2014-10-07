@@ -18,10 +18,20 @@
 
 .panel{
 	position:absolute;
+}
+.panel .panel-body,
+.panel .panel-icon{
+	position:absolute;
 	border-style: solid;
 	border-width:1px;
+	top:0;
+	left:0;
 }
-
+.panel .panel-icon{
+	width:40px;
+	height:40px;
+	cursor: pointer;
+}
 .panel .header{
 	position:absolute;
 	top:0;left:0;right:0;
@@ -29,12 +39,11 @@
 	border-bottom-style: solid;
 	border-bottom-width:1px;
 }
-
 .panel .header .title{
 	position:absolute;
 	top:0;
 	left:0;
-	right:20px;
+	right:40px;
 	bottom: 0;
 	padding:0 10px;
 	overflow: hidden;
@@ -56,17 +65,24 @@
 	-moz-transform: rotate(45deg);
 	transform: rotate(45deg);
 }
-
+.panel .header .iconic{
+	position:absolute;
+	top:0;
+	right:20px;
+	bottom: 0;	
+	width:20px;
+	text-align: center;	
+	cursor: pointer;
+}
 .panel .content{
 	position: absolute;
 	top:25px;
 	left:5px;
 	right:5px;
-	bottom: 15px;
+	bottom: 10px;
 	overflow-x: hidden;
 	overflow-y: auto;
 }
-
 .panel .resizer{
 	position: absolute;
 	bottom: 1px;
@@ -76,4 +92,110 @@
 	border-style: solid;
 	border-width: 5px;
 	cursor:nw-resize;
+}
+
+/* Menu */
+.menu{
+	position: absolute;
+	height:25px;
+	line-height: 25px;
+}
+
+.menu.main-menu{
+	top:0;
+	left:0;
+	right: 0;
+	z-index: 2000;
+}
+
+
+.menu ul,
+.menu ul li,
+.menu span{display: block}
+
+.menu ul li{
+	float:left;
+	position: relative;
+}
+
+.menu span{	
+	padding:0 10px;
+	cursor: pointer;
+}
+.menu ul li ul{
+	position: absolute;
+	top:25px;
+	left:0;
+	display: none;
+	min-width: 150px;
+}
+.menu ul li ul li{
+	float:none;
+}
+
+/* Modal */
+
+.modal{
+	position: absolute;
+	z-index: 20001;
+	min-width: 200px;
+	max-width: 1000px;
+	min-height:200px;
+	border-style: solid;
+	border-width:1px;
+}
+
+.modal .header{
+	position:absolute;
+	top:0;left:0;right:0;
+	height: 35px;line-height: 35px;
+	font-size: 16px;
+	border-bottom-style: solid;
+	border-bottom-width:1px;
+}
+
+.modal .header .title{
+	position:absolute;
+	top:0;
+	left:0;
+	right:35px;
+	bottom: 0;
+	padding:0 14px;
+	overflow: hidden;
+	cursor: default;
+}
+
+.modal .header .close{
+	position:absolute;
+	top:0;
+	right:0;
+	bottom: 0;	
+	width:30px;
+	text-align: center;	
+	cursor: pointer;
+}
+.modal .header .close span{
+	display: inline-block;
+	font-size: 24px;
+	-webkit-transform: rotate(45deg);
+	-moz-transform: rotate(45deg);
+	transform: rotate(45deg);
+}
+
+.modal .content{
+	position: absolute;
+	top:45px;
+	left:15px;
+	right:15px;
+	bottom: 15px;
+	overflow: auto;
+}
+
+.dimmer{
+	position: absolute;	
+	z-index: 20000;
+	top:0;
+	bottom:0;
+	left: 0;
+	right: 0;
 }
