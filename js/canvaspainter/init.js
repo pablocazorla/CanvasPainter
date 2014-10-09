@@ -1,10 +1,16 @@
 //Init
 (function() {
 
-	var UIClass = CanvasPainter.Classes.UI.UI();
-	var UI = new UIClass();
+	var APPClass = CanvasPainter.Classes.App.APP(),
+		App = new APPClass(),
+		
+		UIClass = CanvasPainter.Classes.UI.UI(),
+		UI = new UIClass();
 
 	$(document).ready(function() {
-		UI.init();
+		UI.init(App);
+
+		App.createDocument();
+
 	});
 })();

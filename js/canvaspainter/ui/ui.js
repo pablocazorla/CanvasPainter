@@ -1,16 +1,23 @@
 // UI
 CanvasPainter.Classes.UI.UI = function() {
 
-	var PANEL = CanvasPainter.Classes.UI.PANEL(),
-		MODAL = CanvasPainter.Classes.UI.MODAL(),
-		MENU = CanvasPainter.Classes.UI.MENU(),
+	var cl = CanvasPainter.Classes.UI,
+		U = CanvasPainter.Utils,
+		PANEL = cl.PANEL(),
+		MODAL = cl.MODAL(),
+		MENU = cl.MENU(),
+		BUTTON = cl.BUTTON(),
+
+		// Default values
+		defWidth = 800,
+		defheight = 600,
 
 		UI = function() {
 			return this;
 		};
 
 	UI.prototype = {
-		init: function() {
+		init: function(App) {
 			var $container = $('#canvas-painter'),
 				Panel = {},
 				Modal = {},
@@ -18,7 +25,7 @@ CanvasPainter.Classes.UI.UI = function() {
 				Document = {},
 				DocumentContainer = {};
 
-
+			// Panels ****************************************************
 			Panel.Layers = new PANEL({
 				title: 'Layers',
 				classCss: 'panel-layers',
@@ -36,20 +43,50 @@ CanvasPainter.Classes.UI.UI = function() {
 				right: 280
 			}, $container);
 
-			Modal = new MODAL($container);
+			// Modal ****************************************************
+			var Modal = new MODAL($container);
 
-			var $contNew = $('<div>Hola Mundo</div>');
-
-			var $btn = $('<p>Lay</p>').click(function() {
-				Panel.Layers.toggle();
-			}).appendTo($contNew);
-
+			// Modal New
 			Modal.addContent({
 				name: 'new',
-				title: 'New File',
+				title: 'New Document',
 				width: 700,
 				height: 400,
-				content: $contNew
+				content: (function() {
+					var $contNew = $('<div class="enter-data">'),
+						htmlContent = '<p><label>Title:</label><input type="text" value="" placeholder="Untitled" class="new-title"/></p>',
+						$pButtons = $('<p/>');
+					htmlContent += '<p><label>Width:</label><input type="text" value="defWidth" class="new-width"/></p>';
+					htmlContent += '<p><label>Height:</label><input type="text" value="defHeight" class="new-height"/></p>';
+
+					$contNew.html(htmlContent).append($pButtons);
+
+					var btnCancel = new BUTTON({
+							cssClass: 'secondary',
+							text: 'Cancel'
+						}),
+						btnOk = new BUTTON({
+							text: 'Ok'
+						});
+
+					btnCancel.appendTo($pButtons);
+					btnOk.appendTo($pButtons);
+
+					btnOk.click(function() {
+						var newDocument = App.createDocument({
+							title: $contNew.find('.new-title').val(),
+							width: U.toNumber($contNew.find('.new-width').val()),
+							height: U.toNumber($contNew.find('.new-height').val())
+						});
+						Modal.close();
+					});
+
+					btnCancel.click(function() {
+						Modal.close();
+					});
+
+					return $contNew;
+				})()
 			});
 
 			Menu.Main = new MENU({
