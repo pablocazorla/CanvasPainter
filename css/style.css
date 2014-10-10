@@ -143,12 +143,14 @@
 	min-height:200px;
 	border-style: solid;
 	border-width:1px;
+	font-size: 14px;
+	line-height: 22px;
 }
 
 .modal .header{
 	position:absolute;
-	top:0;left:0;right:0;
-	height: 35px;line-height: 35px;
+	top:0;left:20px;right:20px;
+	height: 50px;line-height: 50px;
 	font-size: 16px;
 	border-bottom-style: solid;
 	border-bottom-width:1px;
@@ -160,7 +162,6 @@
 	left:0;
 	right:35px;
 	bottom: 0;
-	padding:0 14px;
 	overflow: hidden;
 	cursor: default;
 }
@@ -171,7 +172,7 @@
 	right:0;
 	bottom: 0;	
 	width:30px;
-	text-align: center;	
+	text-align: right;	
 	cursor: pointer;
 }
 .modal .header .close span{
@@ -184,7 +185,7 @@
 
 .modal .content{
 	position: absolute;
-	top:45px;
+	top:55px;
 	left:15px;
 	right:15px;
 	bottom: 15px;
@@ -198,4 +199,70 @@
 	bottom:0;
 	left: 0;
 	right: 0;
+}
+
+
+/* FORM */
+input,
+textarea,
+select{
+	border-width: 1px;
+	border-style: solid;
+}
+input[type=text],
+input[type=number],
+textarea,
+select{
+	padding:1px 5px;
+	line-height: 20px;
+}
+label{
+	height: 22px;
+	line-height: 22px;
+	padding:0 5px;
+}
+.enter-data {
+	max-width: 400px;
+	margin:0 auto;
+	padding: 30px;
+}
+.enter-data p{
+	margin-bottom:15px;
+}
+
+.enter-data label{
+	text-align: right;
+}
+
+.enter-data label,
+.enter-data input[type=text]{
+	float:left;
+	width:40%;
+}
+.enter-data input[type=number]{
+	float:left;
+	width:25%;
+	margin-right:5px;
+}
+
+/* BUTTON */
+
+.button-container{
+	text-align: center
+}
+.enter-data .button-container{
+	margin:25px 0 0;
+}
+.button{
+	display: inline-block;
+	line-height: 34px;
+	height: 34px;
+	padding:0 15px;
+	text-align: center;
+	min-width: 120px;
+	border-width: 1px;
+	border-style: solid;
+	border-radius: 4px;
+	margin:0 7px;
+	cursor: pointer
 }

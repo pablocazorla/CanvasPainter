@@ -71,8 +71,7 @@
 	box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);
 }
 .modal .header{
-	background-color: #EEE;
-	border-bottom-color:#BBB;
+	border-bottom-color:#CCC;
 }
 
 .modal .header .close{
@@ -85,4 +84,28 @@
 
 .dimmer{
 	background-color: rgba(200,200,200,.6);
+}
+
+/* FORM */
+input,
+textarea,
+select{
+	border-color: #BBB;
+}
+
+/* BUTTON */
+.button{
+	border: none;
+	background-color: #3AE;
+	color:#FFF;
+	font-weight: bold;
+}
+.button:hover{
+	opacity: .8;
+}
+.button:active{
+	box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2) inset;
+}
+.button.secondary{
+	background-color: #AAA;
 }

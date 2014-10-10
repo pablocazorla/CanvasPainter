@@ -10,7 +10,7 @@ CanvasPainter.Classes.UI.UI = function() {
 
 		// Default values
 		defWidth = 800,
-		defheight = 600,
+		defHeight = 600,
 
 		UI = function() {
 			return this;
@@ -50,14 +50,14 @@ CanvasPainter.Classes.UI.UI = function() {
 			Modal.addContent({
 				name: 'new',
 				title: 'New Document',
-				width: 700,
-				height: 400,
+				width: 380,
+				height: 300,
 				content: (function() {
 					var $contNew = $('<div class="enter-data">'),
-						htmlContent = '<p><label>Title:</label><input type="text" value="" placeholder="Untitled" class="new-title"/></p>',
-						$pButtons = $('<p/>');
-					htmlContent += '<p><label>Width:</label><input type="text" value="defWidth" class="new-width"/></p>';
-					htmlContent += '<p><label>Height:</label><input type="text" value="defHeight" class="new-height"/></p>';
+						htmlContent = '<p class="clearfix"><label>Title:</label><input type="text" value="" placeholder="Untitled" class="new-title"/></p>',
+						$pButtons = $('<p class="clearfix button-container"/>');
+					htmlContent += '<p class="clearfix"><label>Width:</label><input type="number" value="' + defWidth + '" class="new-width"/><span>px</span></p>';
+					htmlContent += '<p class="clearfix"><label>Height:</label><input type="number" value="' + defHeight + '" class="new-height"/><span>px</span></p>';
 
 					$contNew.html(htmlContent).append($pButtons);
 
