@@ -8,6 +8,7 @@ CanvasPainter.Classes.UI.MODAL = function() {
 		_init: function($container) {
 			this.$container = $container;
 			this.opened = false;
+			this.data = {};
 
 			return this._render();
 		},
@@ -23,7 +24,8 @@ CanvasPainter.Classes.UI.MODAL = function() {
 			this.$cont = $('<div class="content"/>').appendTo(this.$modal);
 			return this._resizing().setEvents(this);
 		},
-		open: function(name) {
+		open: function(name, data) {
+			this.data = $.extend(this.data, data);
 			this.$cont.find('.content-modal').hide();
 			var $content = this.$cont.find('.' + name + '-modal').show(),
 				w = parseInt($content.attr('data-width')),

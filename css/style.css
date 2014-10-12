@@ -91,7 +91,7 @@
 	height:0;
 	border-style: solid;
 	border-width: 5px;
-	cursor:nw-resize;
+	cursor:se-resize;
 }
 
 /* Menu */
@@ -200,7 +200,13 @@
 	left: 0;
 	right: 0;
 }
-
+.modal .info{
+	padding: 20px 20px 4px;
+	text-align: center;
+}
+.modal .info p{
+	margin-bottom: 20px
+}
 
 /* FORM */
 input,
@@ -265,4 +271,68 @@ label{
 	border-radius: 4px;
 	margin:0 7px;
 	cursor: pointer
+}
+
+/* DOCUMENT_CONTAINER */
+.document-container{
+	position: absolute;
+	z-index: 1;
+	top:25px;bottom: 0;
+	left: 0;right: 0;
+}
+.doc-content{
+	position: absolute;
+	top:20px;
+	bottom: 0;
+	left: 0;right: 0;
+	overflow: scroll;
+	display: none;
+}
+
+.doc-content.current{
+	display: block;
+}
+
+.tabs{
+	position: absolute;
+	height:20px;
+	top: 0;
+	left: 0;right: 0;
+	padding: 2px 0 0;
+	border-width: 0 0 1px;
+	border-style: solid;
+}
+
+
+.tab{
+	display: inline-block;
+	height: 18px;
+	line-height: 18px;
+	font-size: 10px;
+	padding:0 8px;	
+	border-width: 1px;
+	border-style: solid;
+	border-radius: 4px 4px 0 0; 
+	margin: 0 2px;
+}
+.tab .tab-title,
+.tab .tab-close{
+	display: inline-block;
+	float: left;	
+	cursor: pointer
+}
+.tab .tab-close{
+	margin: 0 0 0 5px;
+	font-size: 16px;
+	color:#666;
+}
+.tab .tab-close:hover{
+	color:#F00;
+}
+.tab .tab-close span{
+	display: inline-block;
+	
+	-webkit-transform: rotate(45deg);
+	-moz-transform: rotate(45deg);
+	transform: rotate(45deg);
 }

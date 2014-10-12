@@ -42,13 +42,15 @@
 /* Menu */
 
 .menu.main-menu{
-	background-color:#CCC;
+	background-color:#999;
 	box-shadow:0 -2px 2px rgba(0, 0, 0, 0.06) inset;
+color:#000;
 }
 
 .menu li:hover{
 	background-color: #333;
 	color:#FFF;
+	
 }
 .menu li li{
 	color:#333;
@@ -108,4 +110,20 @@ select{
 }
 .button.secondary{
 	background-color: #AAA;
+}
+
+/* DOCUMENT_CONTAINER */
+.tabs{
+	background-color: #BBB;
+	border-color: #999
+}
+
+.tab{
+	background-color: #BBB;
+	border-color: #777 #777 #999;
+	color:;
+}
+.tab.current{
+	background-color: #DDD;
+	border-bottom-color: #DDD;
 }

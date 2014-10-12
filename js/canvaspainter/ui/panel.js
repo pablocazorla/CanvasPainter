@@ -74,7 +74,7 @@ CanvasPainter.Classes.UI.PANEL = function() {
 			}
 			this.$content = $('<div class="content"/>').appendTo(this.$panelBody);
 			if (this.config.resizable) {
-				this.$resizer = $('<div class="resizer"/>').appendTo(this.$panelBody);
+				this.$resizer = $('<div class="resizer" title="Resize Panel"/>').appendTo(this.$panelBody);
 				this._setResizable(this);
 			}
 

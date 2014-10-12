@@ -7,6 +7,7 @@ CanvasPainter.Classes.UI.UI = function() {
 		MODAL = cl.MODAL(),
 		MENU = cl.MENU(),
 		BUTTON = cl.BUTTON(),
+		DOCUMENT_CONTAINER = cl.DOCUMENT_CONTAINER(),
 
 		// Default values
 		defWidth = 800,
@@ -21,9 +22,10 @@ CanvasPainter.Classes.UI.UI = function() {
 			var $container = $('#canvas-painter'),
 				Panel = {},
 				Modal = {},
-				Menu = {},
-				Document = {},
-				DocumentContainer = {};
+				Menu = {};
+
+			// Document Container ***************************************************	
+			var DocumentContainer = new DOCUMENT_CONTAINER($container,App);
 
 			// Panels ****************************************************
 			Panel.Layers = new PANEL({
@@ -45,6 +47,8 @@ CanvasPainter.Classes.UI.UI = function() {
 
 			// Modal ****************************************************
 			var Modal = new MODAL($container);
+
+			DocumentContainer.setModal(Modal);
 
 			// Modal New
 			Modal.addContent({
@@ -73,11 +77,19 @@ CanvasPainter.Classes.UI.UI = function() {
 					btnOk.appendTo($pButtons);
 
 					btnOk.click(function() {
-						var newDocument = App.createDocument({
-							title: $contNew.find('.new-title').val(),
-							width: U.toNumber($contNew.find('.new-width').val()),
-							height: U.toNumber($contNew.find('.new-height').val())
-						});
+
+						var conf = {
+								width: U.toNumber($contNew.find('.new-width').val()),
+								height: U.toNumber($contNew.find('.new-height').val())
+							},
+							title = $contNew.find('.new-title').val();
+						if (title !== '') {
+							conf.title = title;
+						}
+
+						var newDocument = App.createDocument(conf);
+						DocumentContainer.addDocument(newDocument);
+
 						Modal.close();
 					});
 
@@ -87,6 +99,42 @@ CanvasPainter.Classes.UI.UI = function() {
 
 					return $contNew;
 				})()
+			});
+			// Modal New
+			Modal.addContent({
+				name: 'close',
+				title: 'Close Document',
+				width: 380,
+				height: 210,
+				content: (function() {
+					var $contNew = $('<div class="info">'),
+						htmlContent = '<p>Would you like to close "<span id="modal-close-doc-title"></span>"?</p>',
+						$pButtons = $('<p class="clearfix button-container"/>');
+
+					$contNew.html(htmlContent).append($pButtons);
+
+					var btnCancel = new BUTTON({
+							cssClass: 'secondary',
+							text: 'No'
+						}),
+						btnOk = new BUTTON({
+							text: 'Yes'
+						});
+
+					btnCancel.appendTo($pButtons);
+					btnOk.appendTo($pButtons);
+
+					btnOk.click(function() {
+						DocumentContainer.removeDocument(Modal.data.id);
+						Modal.close();
+					});
+
+					btnCancel.click(function() {
+						Modal.close();
+					});
+
+					return $contNew;
+				})
 			});
 
 			Menu.Main = new MENU({

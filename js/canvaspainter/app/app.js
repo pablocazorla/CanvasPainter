@@ -33,6 +33,9 @@ CanvasPainter.Classes.App.APP = function() {
 			});
 			this.Document = ducumentSelected;
 			return this.Document;
+		},
+		removeDocument:function(id){
+			return this;
 		}
 	};
 
