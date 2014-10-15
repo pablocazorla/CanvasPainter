@@ -82,9 +82,9 @@ CanvasPainter.Classes.UI.UI = function() {
 						if (title !== '') {
 							conf.title = title;
 						}
-
-						var newDocument = App.createDocument(conf);
-						self.DocumentContainer.addDocument(newDocument);
+						//var newDocument = 
+						App.createDocument(conf);
+						//self.DocumentContainer.addDocument(newDocument);
 
 						self.Modal.close();
 					});

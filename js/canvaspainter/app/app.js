@@ -15,7 +15,7 @@ CanvasPainter.Classes.App.APP = function() {
 	APP.prototype = {
 		init: function() {
 			this.DocumentList = [];
-			this.Document = null;
+			this._Document = U.observable(null);
 			return this;
 		},
 		createDocument: function(options) {
@@ -31,10 +31,29 @@ CanvasPainter.Classes.App.APP = function() {
 					ducumentSelected = Document;
 				}
 			});
-			this.Document = ducumentSelected;
+			this._Document(ducumentSelected);
 			return this.Document;
 		},
-		removeDocument:function(id){
+		removeDocument: function(id) {
+			var self = this,
+				changeDocument = false,
+				indexToRemove = -1;
+			U.each(this.DocumentList, function(Document, i) {
+				if (Document.id === id) {
+					indexToRemove = i;
+				}
+			});
+			changeDocument = (this.DocumentList[indexToRemove].id === this._Document().id);
+			this.DocumentList.splice(indexToRemove, 1);
+			if (changeDocument) {
+				var length = this.DocumentList.length;
+				if (length > 0) {
+					this._Document(this.DocumentList[length - 1]);
+				}else{
+					this._Document(null);
+				}
+			}
+
 			return this;
 		}
 	};

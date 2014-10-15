@@ -10,7 +10,7 @@
 	$(document).ready(function() {
 		UI.init(App);
 
-		App.createDocument();
+		//App.createDocument();
 
 	});
 })();

@@ -11,7 +11,6 @@ CanvasPainter.Classes.UI.DOCUMENT_CONTAINER = function() {
 	DOCUMENT_CONTAINER.prototype = {
 		init: function(UI, App) {
 
-			this.DOCUMENT = null;
 			this.App = App;
 			this.UI = UI;
 
@@ -22,57 +21,74 @@ CanvasPainter.Classes.UI.DOCUMENT_CONTAINER = function() {
 
 			this.$tabs = $('<div class="tabs"/>').appendTo(this.$docContainer);
 
-			return this;
+			return this.setSubscritions();
 
 		},
 		addDocument: function(appDoc) {
-			var self = this,
-				newDocument = new DOCUMENT(appDoc),
-				$tab = $('<div class="tab" data-id="' + appDoc.id + '" data-title="' + appDoc.config.title + '"/>').appendTo(this.$tabs),
-				$tabTitle = $('<div class="tab-title">' + appDoc.config.title + '</div>').appendTo($tab),
-				$tabClose = $('<div class="tab-close"><span>+</span></div>').appendTo($tab);
-
-			$tabTitle.click(function() {
-				var id = U.toNumber($(this).parent().attr('data-id'));
-				self.selectDocument(id);
-			});
-			$tabClose.click(function() {
-				var id = U.toNumber($(this).parent().attr('data-id')),
-					title = $(this).parent().attr('data-title');
-
-				$('#modal-close-doc-title').text(title);
-				self.UI.Modal.open('close', {
-					id: id
-				});
-			});
-
-			newDocument.$docContent.appendTo(this.$docContainer.show());
-
-			this.tabList.push($tab);
-			this.documentList.push(newDocument);
 			this.selectDocument(appDoc.id);
-
 			return this;
 		},
 		selectDocument: function(id) {
-			var id = id || -1,
+			this.App.selectDocument(id);
+			return this;
+		},
+		setSubscritions: function() {
+			var self = this;
 
-				self = this;
+			this.App._Document.subscribe(function(Document) {
+				if (Document !== null) {
+					self.$docContainer.show();
 
-			U.each(this.tabList, function($t) {
-				$t.removeClass('current');
-				if ($t.attr('data-id') == id) {
-					$t.addClass('current');
+					var isCreated = false;
+					U.each(self.documentList, function($d) {
+						if ($d.appDoc.id == Document.id) {
+							isCreated = true;
+						}
+					});
+					// If not exist: Add
+					if (!isCreated) {
+						var newDocument = new DOCUMENT(Document),
+							$tab = $('<div class="tab" data-id="' + Document.id + '" data-title="' + Document.config.title + '"/>').appendTo(self.$tabs),
+							$tabTitle = $('<div class="tab-title">' + Document.config.title + '</div>').appendTo($tab),
+							$tabClose = $('<div class="tab-close"><span>+</span></div>').appendTo($tab);
+
+						$tabTitle.click(function() {
+							var id = U.toNumber($(this).parent().attr('data-id'));
+							self.App.selectDocument(id);
+						});
+						$tabClose.click(function() {
+							var id = U.toNumber($(this).parent().attr('data-id')),
+								title = $(this).parent().attr('data-title');
+
+							$('#modal-close-doc-title').text(title);
+							self.UI.Modal.open('close', {
+								id: id
+							});
+						});
+
+						newDocument.$docContent.appendTo(self.$docContainer.show());
+
+						self.tabList.push($tab);
+						self.documentList.push(newDocument);
+					}
+					// and Select
+					U.each(self.tabList, function($t) {
+						$t.removeClass('current');
+						if ($t.attr('data-id') == Document.id) {
+							$t.addClass('current');
+						}
+					});
+					U.each(self.documentList, function($d) {
+						$d.removeCurrent();
+						if ($d.appDoc.id == Document.id) {
+							$d.addCurrent();
+						}
+					});
+				} else {
+					// Not Document
+					self.$docContainer.hide();
 				}
-			});
 
-			U.each(this.documentList, function($d) {
-				$d.removeCurrent();
-				if ($d.appDoc.id == id) {
-					$d.addCurrent();
-					self.DOCUMENT = $d;
-					self.App.selectDocument(id);
-				}
 			});
 			return this;
 		},
@@ -95,17 +111,7 @@ CanvasPainter.Classes.UI.DOCUMENT_CONTAINER = function() {
 			});
 			$doc.$docContent.remove();
 			this.documentList.splice(index, 1);
-			this.App.removeDocument(id);
-
-			if (this.tabList.length == 0) {
-				this.$docContainer.hide();
-				this.DOCUMENT = null;
-			} else {
-				if (this.$tabs.find('.current').length == 0) {
-					var lastID = U.toNumber(this.tabList[this.tabList.length - 1].attr('data-id'));
-					this.selectDocument(lastID);
-				}
-			}
+			this.App.removeDocument(id);			
 
 			return this;
 		}
