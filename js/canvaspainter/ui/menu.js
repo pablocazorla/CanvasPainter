@@ -13,13 +13,13 @@ CanvasPainter.Classes.UI.MENU = function() {
 				}
 			}
 		},
-		MENU = function(structure, options, $container) {
-			return this.init(structure, options, $container);
+		MENU = function(structure, options, UI) {
+			return this.init(structure, options, UI);
 		};
 
 	MENU.prototype = {
-		init: function(structure, options, $container) {
-			this.$container = $container;
+		init: function(structure, options, UI) {
+			this.$container = UI.$container;
 			this.structure = structure;
 			this.config = $.extend({
 				classCss: ''

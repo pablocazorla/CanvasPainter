@@ -13,13 +13,13 @@ CanvasPainter.Classes.UI.PANEL = function() {
 			}
 			panelList[panelList.length - 1].onTop = true;
 		},
-		PANEL = function(options, $container) {
-			return this._init(options, $container);
+		PANEL = function(options, UI) {
+			return this._init(options, UI);
 		};
 
 	PANEL.prototype = {
-		_init: function(options, $container) {
-			this.$container = $container;
+		_init: function(options, UI) {
+			this.$container = UI.$container;
 			this.$window = $(window);
 			this.id = idPanel++;
 			this.onTop = false;

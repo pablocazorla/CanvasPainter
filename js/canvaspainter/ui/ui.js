@@ -19,39 +19,36 @@ CanvasPainter.Classes.UI.UI = function() {
 
 	UI.prototype = {
 		init: function(App) {
-			var $container = $('#canvas-painter'),
-				Panel = {},
-				Modal = {},
-				Menu = {};
+			var self = this;
+			this.$container = $('#canvas-painter');
+			this.Panel = {};			
+			this.Menu = {};
+			this.Modal = new MODAL(this);
 
 			// Document Container ***************************************************	
-			var DocumentContainer = new DOCUMENT_CONTAINER($container,App);
+			this.DocumentContainer = new DOCUMENT_CONTAINER(this,App);
 
 			// Panels ****************************************************
-			Panel.Layers = new PANEL({
+			this.Panel.Layers = new PANEL({
 				title: 'Layers',
 				classCss: 'panel-layers',
 				top: 370,
 				right: 10
-			}, $container);
-			Panel.Color = new PANEL({
+			}, this);
+			this.Panel.Color = new PANEL({
 				title: 'Color',
 				classCss: 'panel-color',
 				right: 10
-			}, $container);
-			Panel.Brush = new PANEL({
+			}, this);
+			this.Panel.Brush = new PANEL({
 				title: 'Brush',
 				classCss: 'panel-brush',
 				right: 280
-			}, $container);
+			}, this);
 
-			// Modal ****************************************************
-			var Modal = new MODAL($container);
-
-			DocumentContainer.setModal(Modal);
-
+			// Modals ****************************************************
 			// Modal New
-			Modal.addContent({
+			this.Modal.addContent({
 				name: 'new',
 				title: 'New Document',
 				width: 380,
@@ -77,7 +74,6 @@ CanvasPainter.Classes.UI.UI = function() {
 					btnOk.appendTo($pButtons);
 
 					btnOk.click(function() {
-
 						var conf = {
 								width: U.toNumber($contNew.find('.new-width').val()),
 								height: U.toNumber($contNew.find('.new-height').val())
@@ -88,20 +84,20 @@ CanvasPainter.Classes.UI.UI = function() {
 						}
 
 						var newDocument = App.createDocument(conf);
-						DocumentContainer.addDocument(newDocument);
+						self.DocumentContainer.addDocument(newDocument);
 
-						Modal.close();
+						self.Modal.close();
 					});
 
 					btnCancel.click(function() {
-						Modal.close();
+						self.Modal.close();
 					});
 
 					return $contNew;
 				})()
-			});
-			// Modal New
-			Modal.addContent({
+			})
+			// Modal Close
+			.addContent({
 				name: 'close',
 				title: 'Close Document',
 				width: 380,
@@ -125,26 +121,26 @@ CanvasPainter.Classes.UI.UI = function() {
 					btnOk.appendTo($pButtons);
 
 					btnOk.click(function() {
-						DocumentContainer.removeDocument(Modal.data.id);
-						Modal.close();
+						self.DocumentContainer.removeDocument(self.Modal.data.id);
+						self.Modal.close();
 					});
 
 					btnCancel.click(function() {
-						Modal.close();
+						self.Modal.close();
 					});
 
 					return $contNew;
 				})
 			});
-
-			Menu.Main = new MENU({
+			// Modals ****************************************************
+			this.Menu.Main = new MENU({
 				'File': {
 					'label': 'File',
 					'submenu': {
 						'New': {
 							'label': 'New',
 							'action': function() {
-								Modal.open('new');
+								self.Modal.open('new');
 							}
 						},
 						'Open': {
@@ -191,26 +187,26 @@ CanvasPainter.Classes.UI.UI = function() {
 						'Brush': {
 							'label': 'Brush',
 							'action': function() {
-								Panel.Brush.toggle();
+								self.Panel.Brush.toggle();
 							}
 						},
 						'Color': {
 							'label': 'Color',
 							'action': function() {
-								Panel.Color.toggle();
+								self.Panel.Color.toggle();
 							}
 						},
 						'Layers': {
 							'label': 'Layers',
 							'action': function() {
-								Panel.Layers.toggle();
+								self.Panel.Layers.toggle();
 							}
 						},
 						'all': {
 							'label': 'Hide/Show all Panels',
 							'action': function() {
-								for (var a in Panel) {
-									Panel[a].toggle();
+								for (var a in self.Panel) {
+									self.Panel[a].toggle();
 								}
 							}
 						}
@@ -241,7 +237,7 @@ CanvasPainter.Classes.UI.UI = function() {
 				}
 			}, {
 				classCss: 'main-menu'
-			}, $container);
+			}, this);
 
 
 			return this;

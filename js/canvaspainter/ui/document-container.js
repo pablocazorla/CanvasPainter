@@ -4,25 +4,23 @@ CanvasPainter.Classes.UI.DOCUMENT_CONTAINER = function() {
 	var DOCUMENT = CanvasPainter.Classes.UI.DOCUMENT(),
 		U = CanvasPainter.Utils;
 
-	var DOCUMENT_CONTAINER = function($container, App) {
-		return this.init($container, App);
+	var DOCUMENT_CONTAINER = function(UI, App) {
+		return this.init(UI, App);
 	};
 
 	DOCUMENT_CONTAINER.prototype = {
-		init: function($container, App) {
+		init: function(UI, App) {
 
 			this.DOCUMENT = null;
 			this.App = App;
+			this.UI = UI;
 
 			this.tabList = [];
 			this.documentList = [];
 
-			this.$docContainer = $('<div class="document-container"/>').hide().appendTo($container);
+			this.$docContainer = $('<div class="document-container"/>').hide().appendTo(UI.$container);
 
 			this.$tabs = $('<div class="tabs"/>').appendTo(this.$docContainer);
-
-			this.Modal = null;
-
 
 			return this;
 
@@ -43,7 +41,7 @@ CanvasPainter.Classes.UI.DOCUMENT_CONTAINER = function() {
 					title = $(this).parent().attr('data-title');
 
 				$('#modal-close-doc-title').text(title);
-				self.Modal.open('close', {
+				self.UI.Modal.open('close', {
 					id: id
 				});
 			});
@@ -109,10 +107,6 @@ CanvasPainter.Classes.UI.DOCUMENT_CONTAINER = function() {
 				}
 			}
 
-			return this;
-		},
-		setModal: function(Modal) {
-			this.Modal = Modal;
 			return this;
 		}
 	};

@@ -1,12 +1,12 @@
 // Modal
 CanvasPainter.Classes.UI.MODAL = function() {
 	var fadeDuration = 200,
-		MODAL = function($container) {
-			return this._init($container);
+		MODAL = function(UI) {
+			return this._init(UI);
 		};
 	MODAL.prototype = {
-		_init: function($container) {
-			this.$container = $container;
+		_init: function(UI) {
+			this.$container = UI.$container;
 			this.opened = false;
 			this.data = {};
 
