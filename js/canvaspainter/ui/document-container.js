@@ -10,7 +10,6 @@ CanvasPainter.Classes.UI.DOCUMENT_CONTAINER = function() {
 
 	DOCUMENT_CONTAINER.prototype = {
 		init: function(UI, App) {
-
 			this.App = App;
 			this.UI = UI;
 
@@ -18,35 +17,40 @@ CanvasPainter.Classes.UI.DOCUMENT_CONTAINER = function() {
 			this.documentList = [];
 
 			this.$docContainer = $('<div class="document-container"/>').hide().appendTo(UI.$container);
-
 			this.$tabs = $('<div class="tabs"/>').appendTo(this.$docContainer);
-
 			return this.setSubscritions();
-
-		},
-		addDocument: function(appDoc) {
-			this.selectDocument(appDoc.id);
-			return this;
-		},
-		selectDocument: function(id) {
-			this.App.selectDocument(id);
-			return this;
 		},
 		setSubscritions: function() {
 			var self = this;
-
+			// Subscribe to App._Document
 			this.App._Document.subscribe(function(Document) {
 				if (Document !== null) {
 					self.$docContainer.show();
-
-					var isCreated = false;
-					U.each(self.documentList, function($d) {
-						if ($d.appDoc.id == Document.id) {
-							isCreated = true;
+					// Select
+					U.each(self.tabList, function($t) {
+						$t.removeClass('current');
+						if ($t.attr('data-id') == Document.id) {
+							$t.addClass('current');
 						}
 					});
-					// If not exist: Add
-					if (!isCreated) {
+					U.each(self.documentList, function($d) {
+						$d.removeCurrent();
+						if ($d.appDoc.id == Document.id) {
+							$d.addCurrent();
+						}
+					});
+				} else {
+					// Not Document
+					self.$docContainer.hide();
+				}
+			});
+			// Subscribe to App._DocumentList
+			this.App._DocumentList.subscribe(function(DocumentList, Document) {
+				if (Document !== null) {
+					var prevLenght = self.App._DocumentList.previousLength(),
+						currentLenght = DocumentList.length;
+					if (prevLenght < currentLenght) {
+						// Add Document
 						var newDocument = new DOCUMENT(Document),
 							$tab = $('<div class="tab" data-id="' + Document.id + '" data-title="' + Document.config.title + '"/>').appendTo(self.$tabs),
 							$tabTitle = $('<div class="tab-title">' + Document.config.title + '</div>').appendTo($tab),
@@ -65,57 +69,37 @@ CanvasPainter.Classes.UI.DOCUMENT_CONTAINER = function() {
 								id: id
 							});
 						});
-
-						newDocument.$docContent.appendTo(self.$docContainer.show());
-
+						newDocument.$docContent.appendTo(self.$docContainer);
+						setTimeout(function(){
+							newDocument.resetPosition();
+						},50);
+						
 						self.tabList.push($tab);
 						self.documentList.push(newDocument);
+					} else {
+						// Remove Document
+						var id = Document.id, $tab, $doc, index;
+						U.each(self.tabList, function($t, i) {
+							if ($t.attr('data-id') == id) {
+								index = i;
+								$tab = $t;
+							}
+						});
+						$tab.remove();
+						self.tabList.splice(index, 1);
+						U.each(self.documentList, function($d, i) {
+							if ($d.appDoc.id == id) {
+								index = i;
+								$doc = $d;
+							}
+						});
+						$doc.$docContent.remove();
+						self.documentList.splice(index, 1);
 					}
-					// and Select
-					U.each(self.tabList, function($t) {
-						$t.removeClass('current');
-						if ($t.attr('data-id') == Document.id) {
-							$t.addClass('current');
-						}
-					});
-					U.each(self.documentList, function($d) {
-						$d.removeCurrent();
-						if ($d.appDoc.id == Document.id) {
-							$d.addCurrent();
-						}
-					});
-				} else {
-					// Not Document
-					self.$docContainer.hide();
-				}
-
-			});
-			return this;
-		},
-		removeDocument: function(id) {
-			var self = this,
-				$tab, $doc, index;
-			U.each(this.tabList, function($t, i) {
-				if ($t.attr('data-id') == id) {
-					index = i;
-					$tab = $t;
 				}
 			});
-			$tab.remove();
-			this.tabList.splice(index, 1);
-			U.each(this.documentList, function($d, i) {
-				if ($d.appDoc.id == id) {
-					index = i;
-					$doc = $d;
-				}
-			});
-			$doc.$docContent.remove();
-			this.documentList.splice(index, 1);
-			this.App.removeDocument(id);			
-
 			return this;
 		}
 	};
-
 	return DOCUMENT_CONTAINER;
 };

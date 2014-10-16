@@ -336,3 +336,11 @@ label{
 	-moz-transform: rotate(45deg);
 	transform: rotate(45deg);
 }
+
+.canvas-container{
+	position: absolute;
+	background-color: #FFF;
+}
+canvas{
+	display: block;
+}

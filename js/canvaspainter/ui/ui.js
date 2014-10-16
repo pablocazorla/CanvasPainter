@@ -11,7 +11,7 @@ CanvasPainter.Classes.UI.UI = function() {
 
 		// Default values
 		defWidth = 800,
-		defHeight = 600,
+		defHeight = 500,
 
 		UI = function() {
 			return this;
@@ -121,7 +121,7 @@ CanvasPainter.Classes.UI.UI = function() {
 					btnOk.appendTo($pButtons);
 
 					btnOk.click(function() {
-						self.DocumentContainer.removeDocument(self.Modal.data.id);
+						App.removeDocument(self.Modal.data.id);
 						self.Modal.close();
 					});
 

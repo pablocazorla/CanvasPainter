@@ -4,6 +4,9 @@ CanvasPainter.Classes.App.DOCUMENT = function() {
 	// App classes
 	var LAYER = CanvasPainter.Classes.App.LAYER(),
 
+		// Utils
+		U = CanvasPainter.Utils,
+
 		idCounter = 0,
 
 		DOCUMENT = function(options) {
@@ -19,8 +22,23 @@ CanvasPainter.Classes.App.DOCUMENT = function() {
 				height: 600
 			}, options);
 
-			this.LayerList = [];
-			this.Layer = null;
+			this._LayerList = U.observableArray();
+			this._Layer = U.observable(null);
+
+			this.$content = $('<div class="canvas-container" />').width(this.config.width).height(this.config.height);
+
+			this.$canvas = $('<canvas/>').attr({
+				'width':this.config.width+'px',
+				'height':this.config.height+'px'
+			}).appendTo(this.$content);
+
+
+
+
+
+
+
+
 
 			return this;
 		}

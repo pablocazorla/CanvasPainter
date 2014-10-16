@@ -14,19 +14,23 @@ CanvasPainter.Classes.App.APP = function() {
 
 	APP.prototype = {
 		init: function() {
-			this.DocumentList = [];
+			this._DocumentList = U.observableArray();
 			this._Document = U.observable(null);
+
+			this._foregroundColor = U.observableArray('#000');
+			this._backgroundColor = U.observableArray('#FFF');
+
 			return this;
 		},
 		createDocument: function(options) {
 			var newDocument = new DOCUMENT(options);
-			this.DocumentList.push(newDocument);
+			this._DocumentList.push(newDocument);
 			this.selectDocument(newDocument.id);
 			return newDocument;
 		},
 		selectDocument: function(id) {
 			var ducumentSelected = null;
-			U.each(this.DocumentList, function(Document) {
+			U.each(this._DocumentList(), function(Document) {
 				if (Document.id === id) {
 					ducumentSelected = Document;
 				}
@@ -38,17 +42,18 @@ CanvasPainter.Classes.App.APP = function() {
 			var self = this,
 				changeDocument = false,
 				indexToRemove = -1;
-			U.each(this.DocumentList, function(Document, i) {
+			U.each(this._DocumentList(), function(Document, i) {
 				if (Document.id === id) {
 					indexToRemove = i;
 				}
 			});
-			changeDocument = (this.DocumentList[indexToRemove].id === this._Document().id);
-			this.DocumentList.splice(indexToRemove, 1);
+			changeDocument = (this._DocumentList(indexToRemove).id === this._Document().id);
+			this._DocumentList.splice(indexToRemove, 1);
+			// If it needed to select another doc
 			if (changeDocument) {
-				var length = this.DocumentList.length;
+				var length = this._DocumentList().length;
 				if (length > 0) {
-					this._Document(this.DocumentList[length - 1]);
+					this._Document(this._DocumentList(length - 1));
 				}else{
 					this._Document(null);
 				}

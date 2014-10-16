@@ -127,3 +127,7 @@ select{
 	background-color: #DDD;
 	border-bottom-color: #DDD;
 }
+
+.canvas-container{
+	box-shadow: 0 2px 6px rgba(0,0,0,.2);
+}
