@@ -131,3 +131,18 @@ select{
 .canvas-container{
 	box-shadow: 0 2px 6px rgba(0,0,0,.2);
 }
+
+/* Expando */
+
+.expando .expando-header{
+	background-color: #DDD;
+	color:#666;
+}
+
+.expando .expando-header:before{
+	border-color: transparent transparent transparent #666;
+}
+
+.expando.open .expando-header:before{
+	border-color: #666 transparent transparent;
+}

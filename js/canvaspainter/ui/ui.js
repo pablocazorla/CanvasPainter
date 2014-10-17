@@ -8,6 +8,7 @@ CanvasPainter.Classes.UI.UI = function() {
 		MENU = cl.MENU(),
 		BUTTON = cl.BUTTON(),
 		DOCUMENT_CONTAINER = cl.DOCUMENT_CONTAINER(),
+		PANEL_COLOR = cl.PANEL_COLOR(),
 
 		// Default values
 		defWidth = 800,
@@ -45,6 +46,10 @@ CanvasPainter.Classes.UI.UI = function() {
 				classCss: 'panel-brush',
 				right: 280
 			}, this);
+
+			// Panel Color
+			var PanelColor = new PANEL_COLOR(this,App);
+
 
 			// Modals ****************************************************
 			// Modal New
