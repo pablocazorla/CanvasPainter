@@ -6,12 +6,12 @@ CanvasPainter.Classes.UI.PANEL_COLOR = function() {
 		SLIDER = cl.SLIDER(),
 
 
-		PANEL_COLOR = function(UI, APP) {
-			return this.init(UI, APP);
+		PANEL_COLOR = function(UI, App) {
+			return this.init(UI, App);
 		};
 
 	PANEL_COLOR.prototype = {
-		init: function(UI, APP) {
+		init: function(UI, App) {
 
 			this.$node = $('<div class="content-color"/>').appendTo(UI.Panel.Color.$content);
 
@@ -21,7 +21,7 @@ CanvasPainter.Classes.UI.PANEL_COLOR = function() {
 					text: 'Hue/Saturation/Value'
 				}),
 				expandoRGB = new EXPANDO({
-					//open: true,
+					open: true,
 					cssClass: 'expand-rgb',
 					text: 'Red/Green/Blue'
 				});
@@ -31,10 +31,38 @@ CanvasPainter.Classes.UI.PANEL_COLOR = function() {
 
 			// HSV
 			var sliderH = new SLIDER({
-				label: 'Hue'
-			});
+				label: 'Hue',
+				observable : App.ForegroundColor._H
+			}).appendTo(expandoHSV.$content);
+			var sliderS = new SLIDER({
+				label: 'Saturation'				,
+				observable : App.ForegroundColor._S
+			}).appendTo(expandoHSV.$content);
+			var sliderV = new SLIDER({
+				label: 'Value',
+				observable : App.ForegroundColor._V
+			}).appendTo(expandoHSV.$content);
 
-			expandoHSV.addContent(sliderH.$node);
+			// RGB
+			var sliderR = new SLIDER({
+				label: 'Red',
+				min:0,
+				max:255,
+				observable : App.ForegroundColor._R
+			}).appendTo(expandoRGB.$content);
+			var sliderS = new SLIDER({
+				label: 'Green',
+				min:0,
+				max:255,
+				observable : App.ForegroundColor._G
+			}).appendTo(expandoRGB.$content);
+			var sliderV = new SLIDER({
+				label: 'Blue',
+				min:0,
+				max:255,
+				observable : App.ForegroundColor._B
+			}).appendTo(expandoRGB.$content);
+
 
 			return this;
 		}

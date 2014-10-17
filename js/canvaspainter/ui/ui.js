@@ -39,7 +39,7 @@ CanvasPainter.Classes.UI.UI = function() {
 			this.Panel.Color = new PANEL({
 				title: 'Color',
 				classCss: 'panel-color',
-				right: 10
+				height : 600
 			}, this);
 			this.Panel.Brush = new PANEL({
 				title: 'Brush',

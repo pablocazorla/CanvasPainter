@@ -146,3 +146,25 @@ select{
 .expando.open .expando-header:before{
 	border-color: #666 transparent transparent;
 }
+
+
+/* Slider */
+.slider label{
+	font-weight: bold;
+}
+.slider label,
+.slider .slider-output{
+	color:#666;
+}
+.slider input,
+.slider .slider-output{
+	border-color:#BBB;
+	background-color:#FFF; 
+}
+
+.slider .range-line{
+	background-color:#DDD; 
+}
+.slider .range-button{
+	border-color: transparent transparent #999; 
+}

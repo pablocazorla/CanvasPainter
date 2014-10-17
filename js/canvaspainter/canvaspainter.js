@@ -16,7 +16,7 @@ var CanvasPainter = {
 			return isNaN(parseFloat(num)) ? (defaultValue || 0) : parseFloat(num);
 		},
 		observable: function(val) {
-			var currentValue = val || undefined,
+			var currentValue = (typeof val ===  'undefined') ? undefined : val,
 				subscriptions = [],
 				length = 0,
 				enabledSubscr = true,
@@ -53,6 +53,7 @@ var CanvasPainter = {
 				enabledSubscr = fl;
 				return this;
 			};
+
 
 			return obs;
 		},

@@ -2,7 +2,9 @@
 CanvasPainter.Classes.App.APP = function() {
 
 	// App classes
-	var DOCUMENT = CanvasPainter.Classes.App.DOCUMENT(),
+	var cl = CanvasPainter.Classes.App,
+		DOCUMENT = cl.DOCUMENT(),
+		COLOR = cl.COLOR(),
 
 		// Utils
 		U = CanvasPainter.Utils,
@@ -17,8 +19,8 @@ CanvasPainter.Classes.App.APP = function() {
 			this._DocumentList = U.observableArray();
 			this._Document = U.observable(null);
 
-			this._foregroundColor = U.observableArray('#000');
-			this._backgroundColor = U.observableArray('#FFF');
+			this.ForegroundColor = new COLOR();
+			this.BackgroundColor = new COLOR();
 
 			return this;
 		},
@@ -54,7 +56,7 @@ CanvasPainter.Classes.App.APP = function() {
 				var length = this._DocumentList().length;
 				if (length > 0) {
 					this._Document(this._DocumentList(length - 1));
-				}else{
+				} else {
 					this._Document(null);
 				}
 			}

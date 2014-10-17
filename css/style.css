@@ -376,42 +376,84 @@ canvas{
 	left:7px;
 	border-width: 7px 5px;
 }
-
-
-
-
-/* Range */
-
-input[type='range'] {
-	-webkit-appearance: none;
-	border-radius: 5px;
-	box-shadow: inset 0 0 5px #333;
-	background-color: #999;
-	height: 10px;
-	vertical-align: middle;
+.expando .expando-body{
+	padding:5px;
 }
-input[type='range']::-moz-range-track {
-	-moz-appearance: none;
-	border-radius: 5px;
-	box-shadow: inset 0 0 5px #333;
-	background-color: #999;
-	height: 10px;
+
+
+
+/* Slider */
+
+.slider{
+	position: relative;
+	height:38px;	
 }
-input[type='range']::-webkit-slider-thumb {
-	-webkit-appearance: none !important;
-	border-radius: 20px;
-	background-color: #FFF;
-	box-shadow:inset 0 0 10px rgba(000,000,000,0.5);
-	border: 1px solid #999;
-	height: 20px;
-	width: 20px;
+.slider label,
+.slider input,
+.slider .slider-output,
+.slider .range,
+.slider .range-line,
+.slider .range-button{
+	position: absolute;
 }
-input[type='range']::-moz-range-thumb {
-	-moz-appearance: none;
-	border-radius: 20px;
-	background-color: #FFF;
-	box-shadow:inset 0 0 10px rgba(000,000,000,0.5);
-	border: 1px solid #999;
-	height: 20px;
-	width: 20px;
+
+.slider label{
+	top:0;left: 0;right: 45px;
+	padding:0;
+	display: block;
+	height: 15px;
+	line-height: 15px;
+	font-size: 10px;
 }
+.slider input,
+.slider .slider-output{
+	top:0;right: 0;
+	display: block;
+	width: 35px;
+	height: 15px;
+	line-height: 15px;
+	text-align: center;
+	border-width:1px;
+	border-style:solid;
+	font-family: monospace;
+	font-size: 12px;
+}
+.slider .slider-output{
+	overflow: hidden;
+	cursor: pointer;
+}
+.slider input{
+	display: none;
+}
+
+.slider .range{
+	top:20px;left: -5px;
+	right: 7px;
+	height: 15px;
+	cursor: ew-resize;
+}
+.slider .range-line{
+	top:0;left: 5px;
+	right: -7px;
+	height: 3px;
+}
+
+.slider .range-button{
+	width:0;height: 0;
+	border-width:8px 6px;
+	border-style: solid; 
+	top:-7px;left:0;
+}
+.slider .range-button{
+	width:0;height: 0;
+	border-width:8px 6px;
+	border-style: solid; 
+	top:-7px;left:0;
+}
+.slider .range-button.animated{
+	transition: left .2s;
+	-webkit-transition: left .2s;
+	-moz-transition: left .2s;
+}
+
+
