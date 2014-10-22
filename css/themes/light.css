@@ -168,3 +168,8 @@ select{
 .slider .range-button{
 	border-color: transparent transparent #999; 
 }
+
+/* color */
+.color-quad canvas{
+	border-color: #DDD;
+}

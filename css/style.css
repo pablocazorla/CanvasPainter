@@ -456,4 +456,46 @@ canvas{
 	-moz-transition: left .2s;
 }
 
+/* Color*/
+.color-quad-container{
+	padding:5px;
+}
+.color-quad{
+	position: relative;
+	height: 145px;
+	margin-bottom: 10px;
+}
+.color-quad canvas{
+	position: absolute;
+	top:0;
+	border-style: solid;
+	border-width: 1px;
+	background-color: #FFF;
+}
 
+#color-cnv-gradient-sat-val{
+	left:0;
+}
+#color-cnv-gradient-hue{
+	left:150px;
+}
+
+.color-cursor{
+	position: absolute;
+	top:50px;
+	left:50px;
+	width:8px;
+	height: 8px;
+	border:solid 1px #333;
+	box-shadow: 0 0 0 1px rgba(255,255,255,.5),inset 0 0 0 1px rgba(255,255,255,.5);
+	margin: -3px 0 0 -3px;
+	border-radius: 5px;
+}
+
+.color-cursor.cursor-hue{
+	width:22px;
+	height: 3px;
+	border-radius: 2px;
+	margin: 0;
+	left:150px;
+}

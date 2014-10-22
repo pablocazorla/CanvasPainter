@@ -15,6 +15,7 @@ var CanvasPainter = {
 		toNumber: function(num, defaultValue) {
 			return isNaN(parseFloat(num)) ? (defaultValue || 0) : parseFloat(num);
 		},
+		idObservable :0,
 		observable: function(val) {
 			var currentValue = (typeof val ===  'undefined') ? undefined : val,
 				subscriptions = [],
@@ -36,6 +37,7 @@ var CanvasPainter = {
 						return this;
 					}
 				};
+			obs.id = CanvasPainter.Utils.idObservable++;
 			obs.subscribe = function(handler) {
 				if (typeof handler === 'function') {
 					subscriptions.push(handler);
