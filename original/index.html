@@ -1,0 +1,278 @@
+<!doctype HTML>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>CanvasPainter</title>
+	<meta name="description" content="">
+	<meta name="keywords" content="">	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">	
+	<!-- CSS -->
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+	<link type="text/css" rel="stylesheet" href="css/style.css">
+</head>
+<body>
+	<div id="browserIncompatible">
+		<p><b>Sorry, your browser is not compatible with Canvas Painter.</b></p>
+		<p>Please, use a modern like <a href="http://www.google.com/chrome/‎" target="_blank">Google Chrome</a>, <a href="http://www.firefox.com/" target="_blank">Mozilla Firefox</a>, <a href="http://www.opera.com" target="_blank">Opera</a> or <a href="http://microsoft.com/ie" target="_blank">Internet Explorer +10</a>.</p>
+	</div>
+	<div id="presentation">
+		<img src="img/presentation.jpg" id="presentation-img" width="700" height="211"/>
+		<div class="presentation-text">
+			<p id="loader-presentation"><img src="img/loader.gif" class="loader-img" width="16" height="16">Loading...</p>
+			<p>Canvas Painter v0.1</p>
+			<p>Created by Pablo Cazorla under licence <a href="http://creativecommons.org/licenses/by-sa/3.0/" target="_blank">Creative Commons</a> - 2014.<br>
+			Icons by <a href="http://thenounproject.com/" target="_blank">The Noun Project</a>.</p>
+		</div>
+	</div>
+	<div id="canvasPresentation" class="canvasShopBack"></div>
+	<div id="canvasShopExport" class="canvasShopBack">
+		<div id="export-image-container"></div>
+		<div class="export-text">
+			<p>Over the image, press Right Button of the Mouse an select "Save image"</p>
+			<span class="btn" id="close-exporter">Close export</span>
+		</div>
+	</div>
+	<div id="canvasShopBack" class="canvasShopBack">
+		<div id="picker-sample"></div>
+		<div id="main-header">
+			<ul id="main-menu" class="menu">
+				<li><span>File</span>
+					<ul>
+						<li id="btn-new" title="Create a new image">New</li>
+						<li id="btn-import" class="disable" title="Import Image">Import</li>
+						<li id="btn-export" class="disable" title="Export the image to PNG Format">Export</li>
+						<li id="btn-close-doc" class="disable" title="Close Image">Close</li>
+					</ul>
+				</li>
+				<li><span>Edit</span>
+					<ul>
+						<li id="btn-undo" class="disable">Undo</li>
+						<li id="btn-redo" class="disable">Redo</li>
+						<!--li id="btn-preferences">Preferences</li-->
+					</ul>
+				</li>
+				<li><span>Panels</span>
+					<ul>
+						<li id="btn-show-color" title="Show Color panel">Color</li>
+						<li id="btn-show-brush" title="Show Color panel">Brush</li>
+						<li id="btn-show-layers" title="Show Color panel">Layers</li>
+						<li id="btn-show-tools" title="Show Color panel">Tools</li>
+					</ul>
+				</li>
+				<li id="menu-filters" class="disable"><span>Filter</span>
+					<ul>
+						<li id="btn-filter-invert" >Invert</li>
+					</ul>
+				</li>
+				<li><span>Help</span>
+					<ul>
+						<li id="btn-about" >About</li>
+					</ul>
+				</li>
+			</ul>
+			<ul id="menu-document" class="menu">
+				<li id="document-list-title-content" class="disable"><span id="document-list-title" title="List of documents">Documents (0)</span>
+					<ul id="document-list"></ul>
+				</li>
+			</ul>
+			<div class="header-section" id="slide-zoom-container"></div>
+			<div class="header-section disable" id="zoom-buttons">
+				<span id="tool-zoom-hundred" class="btn-icon medium" title="Zoom to 100%"></span>
+				<span id="tool-zoom-scaled" class="btn-icon medium" title="Zoom to window view"></span>
+				<span id="tool-zoom-minus" class="btn-icon medium" title="Zoom out (-)"></span>
+				<span id="tool-zoom-plus" class="btn-icon medium" title="Zoom in (+)"></span>				
+			</div>
+		</div>
+		<div class="modal" id="modal-processing">
+			<div class="modal-body">
+				Processing...
+			</div>
+		</div>
+		<div class="modal" id="modal-start">
+			<div class="modal-header">Start a project</div>
+			<div class="modal-body clearfix">
+				<div class="option-start clearfix" id="new-start">
+					<div class="icon-start"></div>
+					<div class="text-start">New Project</div>
+				</div>
+				<div class="option-start clearfix disable" id="import-start">
+					<div class="icon-start"></div>
+					<div class="text-start">Import Project</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal" id="modal-new">
+			<div class="modal-header">New</div>
+			<div class="modal-body clearfix">
+				<div class="col col-left">
+					<fieldset>
+					<label>Name:</label><input type="text" value="Untitled" id="modal-new-input-name"/>
+					</fieldset>
+					<fieldset>
+						<label>Width:</label><input type="text" value="800" id="modal-new-input-width"/>px
+					</fieldset>
+					<fieldset>
+						<label>Height:</label><input type="text" value="600" id="modal-new-input-height"/>px
+					</fieldset>
+					<fieldset>
+						<label>Background:</label>
+						<select id="modal-new-background">
+							<option selected="selected" value="transparent">Transparent</option>
+							<option value="white">White</option>							
+							<option value="black">Black</option>
+						</select>
+					</fieldset>
+				</div>
+				<div class="col col-right">
+					<span class="btn" id="ok-new">OK</span>
+					<span class="btn" id="cancel-new">Cancel</span>
+				</div>
+			</div>
+		</div>
+		<div class="modal" id="modal-close">
+			<div class="modal-header">Close</div>
+			<div class="modal-body align-center">
+				<p>Are you sure?</p>
+				<p>
+					<span class="btn" id="ok-close">OK</span>
+					<span class="btn" id="cancel-close">Cancel</span>
+				</p>
+			</div>
+		</div>
+		<div class="modal-dimmer" id="modal-dimmer"></div>
+
+		<div class="palet"  id="palet-color">
+			<input type="hidden" class="palet-setting" value="block,52px,auto,5px,390px,false" />
+			<div class="palet-icon"></div>
+			<div class="palet-content">				
+				<div class="palet-header">
+					<div class="palet-title">Color</div>
+					<span class="palet-setIcon" title="Minimize panel to icon"></span>
+					<span class="palet-close" title="Close panel"></span>
+				</div>
+				<div class="palet-body">
+					<div id="color-ctrl">
+						<div id="color-ctrl-current">
+							<div id="color-ctrl-current-sample"></div>
+							<div id="color-ctrl-current-info">Info</div>
+						</div>
+						<div class="color-cnvs">
+							<canvas id="color-cnv-gradient-sat-val" width="140" height="140"></canvas>
+							<canvas id="color-cnv-gradient-hue" width="20" height="140"></canvas>
+							<span id="color-sat-val-cursor"></span>
+							<span id="color-hue-cursor"></span>
+						</div>
+						<div class="color-sliders">
+							<div class="palet-tabs">
+								<div class="tab-palet current" id="tab-palet-rgb" title="RGB controls">RGB</div>
+								<div class="tab-palet" id="tab-palet-hsv" title="HSV controls">HSV</div>
+							</div>
+							<div id="color-sliders-rgb"></div>
+							<div id="color-sliders-hsv" style="display: none"></div>
+						</div>
+					</div>
+				</div>
+				<div class="palet-resize"></div>
+			</div>			
+		</div>
+
+		<div class="palet"  id="palet-layers">
+			<input type="hidden" class="palet-setting" value="block,450px,auto,5px,285px,false" />
+			<div class="palet-icon"></div>
+			<div class="palet-content">				
+				<div class="palet-header">
+					<div class="palet-title">Layers</div>
+					<span class="palet-setIcon" title="Minimize panel to icon"></span>
+					<span class="palet-close" title="Close panel"></span>
+				</div>
+				<div class="palet-body">
+					<div id="layer-top-tools" class="disable"></div>
+					<div id="layer-container"></div>
+					<div id="layer-bottom-tools" class="disable">
+						<span class="btn-icon" id="palet-tool-new-layer" title="Create a new layer"></span>
+						<span class="btn-icon" id="palet-duplicate-layer" title="Duplicate layer"></span>
+						<span class="btn-icon" id="palet-merge-layer" title="Merge with layer below"></span>			
+						<span class="btn-icon" id="palet-tool-remove-layer" title="Remove layer"></span>
+					</div>
+				</div>
+				<div class="palet-resize"></div>
+			</div>
+		</div>
+
+		<div class="palet"  id="palet-brush">
+			<input type="hidden" class="palet-setting" value="block,52px,auto,210px,485px,false" />
+			<div class="palet-icon"></div>
+			<div class="palet-content">				
+				<div class="palet-header">
+					<div class="palet-title">Brush</div>
+					<span class="palet-setIcon" title="Minimize panel to icon"></span>
+					<span class="palet-close" title="Close panel"></span>
+				</div>
+				<div class="palet-body">
+					<div class="brush-ctrl">
+						<div class="brush-preview clearfix">						
+							<canvas id="brush-preview-cnv" width="90" height="90" title="Brush preview"></canvas>
+							<div class="brush-preview-txt" id="brush-preview-txt"></div>
+						</div>
+						<div id="brush-ctrl-principal" class="brush-ctrl-item"></div>
+						<div id="title-brush-ctrl-sec" class="brush-ctrl-item-title">More settings</div>
+						<div id="brush-ctrl-sec" class="brush-ctrl-item"></div>
+						<div id="title-brush-ctrl-random" class="brush-ctrl-item-title">Randomize</div>
+						<div id="brush-ctrl-random" class="brush-ctrl-item"></div>
+						<div id="title-brush-ctrl-presets" class="brush-ctrl-item-title">Presets</div>
+						<div id="brush-ctrl-presets" class="brush-ctrl-item clearfix"></div>
+					</div>
+				</div>
+				<div class="palet-resize"></div>
+			</div>
+		</div>
+
+		<div class="palet"  id="palet-tools">
+			<input type="hidden" class="palet-setting" value="block,52px,5px,auto,350px,false" />
+			<div class="palet-icon"></div>
+			<div class="palet-content">				
+				<div class="palet-header">
+					<div class="palet-title">Tools</div>
+					<span class="palet-setIcon" title="Minimize panel to icon"></span>
+					<span class="palet-close" title="Close panel"></span>
+				</div>
+				<div class="palet-body">
+					<div id="tools-ctrl">
+						<div class="tools-btn-container clearfix">
+							<span class="btn-icon big btn-tool current" id="tool-brush" title="Brush (B)"></span>
+							<span class="btn-icon big btn-tool" id="tool-eraser" title="Eraser mode (E)"></span>
+							<span class="btn-icon big btn-tool" id="tool-picker" title="Color picker (I, Alt)"></span>
+							<span class="btn-icon big btn-tool" id="tool-hand" title="Drag (H, Space)"></span>
+							<span class="btn-icon big btn-tool" id="tool-select" title="Select (S)"></span>
+							<!--span class="btn-icon big btn-tool" id="tool-transform" title="Transform (T)"></span-->
+						</div>
+						<div id="tool-ctrl-item"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div id="doc-container" class="brush"></div>		
+	</div>
+	<script src="js/utils.js"></script>
+	<script src="js/hypercolor.js"></script>
+	<script src="js/brush.js"></script>
+	<script src="js/picker.js"></script>
+	<script src="js/filters.js"></script>
+	<script src="js/doc.js"></script>
+	<script src="js/ui.palet.js"></script>
+	<script src="js/ui.layer.js"></script>
+	<script src="js/ui.switcher.js"></script>
+	<script src="js/ui.slider.js"></script>
+	<script src="js/ui.color.js"></script>
+	<script src="js/ui.brush.js"></script>
+	<script src="js/ui.tools.js"></script>
+	<script src="js/ui.filters.js"></script>
+	<script src="js/ui.js"></script>	
+	<script src="js/app.js"></script>
+	<script src="js/ejecutar.js"></script>
+</body>
+</html>
+
+
