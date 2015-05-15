@@ -1,1 +1,205 @@
-var hypercolor=function(a){return this.init(a)};hypercolor.prototype={init:function(a){return this.values={r:0,g:0,b:0,h:0,s:0,v:0,hex:"#000000"},this.color(a),this},color:function(a){return void 0!=a?("string"==typeof a?(a.indexOf("#")>-1&&this.hex(a),a.indexOf("rgb")>-1&&this.rgb(a),a.indexOf("hsv")>-1&&this.hsv(a)):(void 0!=a.r&&this.rgb(a),void 0!=a.h&&this.hsv(a)),this):this.values},merge:function(a){return this.values=extend(this.values,a),this},hex:function(a){return void 0!=a&&"string"==typeof a?(this.merge({hex:a}).merge(this.hexToRgb(a)).merge(this.hexToHsv(a)),this):this.values.hex},rgb:function(a){if(void 0!=a){if("string"==typeof a){var b=a.substring(4,a.length-1).split(",");a={r:parseInt(b[0]),g:parseInt(b[1]),b:parseInt(b[2])}}return this.merge({hex:this.rgbToHex(a)}).merge(this.rgbToHsv(a)).merge(a),this}return{r:this.values.r,g:this.values.g,b:this.values.b}},hsv:function(a){if(void 0!=a){if("string"==typeof a){var b=a.substring(4,a.length-1).split(",");a={h:parseFloat(b[0]),s:parseFloat(b[1]),v:parseFloat(b[2])}}return this.merge({hex:this.hsvToHex(a)}).merge(this.hsvToRgb(a)).merge(a),this}return{h:this.values.h,s:this.values.s,v:this.values.v}},r:function(a){return void 0!=a?(this.rgb({r:a,g:this.values.g,b:this.values.b}),this):this.values.r},g:function(a){return void 0!=a?(this.rgb({r:this.values.r,g:a,b:this.values.b}),this):this.values.g},b:function(a){return void 0!=a?(this.rgb({r:this.values.r,g:this.values.g,b:a}),this):this.values.b},h:function(a){return void 0!=a?(this.hsv({h:a,s:this.values.s,v:this.values.v}),this):this.values.h},s:function(a){return void 0!=a?(this.hsv({h:this.values.h,s:a,v:this.values.v}),this):this.values.s},v:function(a){return void 0!=a?(this.hsv({h:this.values.h,s:this.values.s,v:a}),this):this.values.v},rgbString:function(){return"rgb("+this.values.r+","+this.values.g+","+this.values.b+")"},rgbaHalfString:function(){return"rgba("+this.values.r+","+this.values.g+","+this.values.b+","},hexToRgb:function(a){var b=/^#?([a-f\d])([a-f\d])([a-f\d])$/i;a=a.replace(b,function(a,b,c,d){return b+b+c+c+d+d});var c=/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(a);return c?{r:parseInt(c[1],16),g:parseInt(c[2],16),b:parseInt(c[3],16)}:null},hexToHsv:function(a){return this.rgbToHsv(this.hexToRgb(a))},rgbToHex:function(a){var b=function(a){var b=a.toString(16);return 1==b.length?"0"+b:b},c=a.r,d=a.g,e=a.b;return"#"+b(c)+b(d)+b(e)},hsvToHex:function(a){return this.rgbToHex(this.hsvToRgb(a))},rgbToHsv:function(a){var b=a.r,c=a.g,d=a.b;b/=255,c/=255,d/=255;var g,h,e=Math.max(b,c,d),f=Math.min(b,c,d),i=e,j=e-f;if(h=0==e?0:j/e,e==f)g=0;else{switch(e){case b:g=(c-d)/j+(d>c?6:0);break;case c:g=(d-b)/j+2;break;case d:g=(b-c)/j+4}g/=6}return{h:g,s:h,v:i}},hsvToRgb:function(a){var e,f,g,b=parseFloat(a.h),c=parseFloat(a.s),d=parseFloat(a.v),h=Math.floor(6*b),i=6*b-h,j=d*(1-c),k=d*(1-i*c),l=d*(1-(1-i)*c);switch(h%6){case 0:e=d,f=l,g=j;break;case 1:e=k,f=d,g=j;break;case 2:e=j,f=d,g=l;break;case 3:e=j,f=k,g=d;break;case 4:e=l,f=j,g=d;break;case 5:e=d,f=j,g=k}return{r:Math.round(255*e),g:Math.round(255*f),b:Math.round(255*g)}}};
+// Hypercolor
+var hypercolor = function(c){
+	return this.init(c);
+}
+hypercolor.prototype = {
+	init : function(c){
+		this.values = {
+			r : 0,
+			g : 0,
+			b : 0,
+			h : 0,
+			s : 0,
+			v : 0,
+			hex : '#000000'
+		};
+		this.color(c);
+		return this;
+	},
+	color : function(c){
+		if(c != undefined){
+			var d;
+			if(typeof c == 'string'){
+				if(c.indexOf('#')>-1){
+					this.hex(c);
+				}
+				if(c.indexOf('rgb')>-1){					
+					this.rgb(c);
+				}
+				if(c.indexOf('hsv')>-1){
+					this.hsv(c);
+				}
+			}else{
+				if(c.r != undefined){
+					this.rgb(c);
+				}
+				if(c.h != undefined){
+					this.hsv(c);
+				}
+			}			
+			return this;
+		}else{
+			return this.values;
+		}
+	},
+	merge : function(obj){
+		this.values = extend(this.values,obj);
+		return this;
+	},
+	hex : function(c){
+		if(c != undefined && typeof c == 'string'){
+			this.merge({hex : c}).merge(this.hexToRgb(c)).merge(this.hexToHsv(c));
+			return this;
+		}else{
+			return this.values.hex;
+		}
+	},
+	rgb : function(c){
+		if(c != undefined){
+			if(typeof c == 'string'){
+				var arr = c.substring(4,c.length-1).split(',');
+				c = {'r':parseInt(arr[0]),'g':parseInt(arr[1]),'b':parseInt(arr[2])};
+			}
+			this.merge({hex : this.rgbToHex(c)}).merge(this.rgbToHsv(c)).merge(c);
+			return this;
+		}else{
+			return {'r':this.values.r,'g':this.values.g,'b':this.values.b};
+		}
+	},
+	hsv : function(c){
+		if(c != undefined){
+			if(typeof c == 'string'){
+				var arr = c.substring(4,c.length-1).split(',');
+				c = {'h':parseFloat(arr[0]),'s':parseFloat(arr[1]),'v':parseFloat(arr[2])};
+			}
+			this.merge({hex : this.hsvToHex(c)}).merge(this.hsvToRgb(c)).merge(c);
+			return this;
+		}else{
+			return {'h':this.values.h,'s':this.values.s,'v':this.values.v};
+		}
+	},
+	r : function(c){
+		if(c != undefined){
+			this.rgb({'r':c,'g':this.values.g,'b':this.values.b});
+			return this;
+		}else{
+			return this.values.r;
+		}
+	},
+	g : function(c){
+		if(c != undefined){
+			this.rgb({'r':this.values.r,'g':c,'b':this.values.b});
+			return this;
+		}else{
+			return this.values.g;
+		}
+	},
+	b : function(c){
+		if(c != undefined){
+			this.rgb({'r':this.values.r,'g':this.values.g,'b':c});
+			return this;
+		}else{
+			return this.values.b;
+		}
+	},
+	h : function(c){
+		if(c != undefined){
+			this.hsv({'h':c,'s':this.values.s,'v':this.values.v});
+			return this;
+		}else{
+			return this.values.h;
+		}
+	},
+	s : function(c){
+		if(c != undefined){
+			this.hsv({'h':this.values.h,'s':c,'v':this.values.v});
+			return this;
+		}else{
+			return this.values.s;
+		}
+	},
+	v : function(c){
+		if(c != undefined){
+			this.hsv({'h':this.values.h,'s':this.values.s,'v':c});
+			return this;
+		}else{
+			return this.values.v;
+		}
+	},
+	rgbString : function(){
+		return 'rgb('+this.values.r+','+this.values.g+','+this.values.b+')';
+	},
+	rgbaHalfString : function(){
+		return 'rgba('+this.values.r+','+this.values.g+','+this.values.b+',';
+	},
+	hexToRgb : function(hex) {
+    	// Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+	    var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+	    hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+	        return r + r + g + g + b + b;
+	    });	
+	    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+	    return result ? {
+	        r: parseInt(result[1], 16),
+	        g: parseInt(result[2], 16),
+	        b: parseInt(result[3], 16)
+	    } : null;
+	},
+	hexToHsv : function(hex){
+		return this.rgbToHsv(this.hexToRgb(hex));
+	},		
+	rgbToHex : function(obj) {
+		var componentToHex = function(c) {
+			    var hex = c.toString(16);
+			    return hex.length == 1 ? "0" + hex : hex;
+			},
+			r = obj.r,
+			g = obj.g,
+			b = obj.b;
+	    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+	},
+	hsvToHex : function(obj) {
+		return this.rgbToHex(this.hsvToRgb(obj));
+	},
+	rgbToHsv : function(obj) {
+		var r = obj.r,
+			g = obj.g,
+			b = obj.b;			
+		r /= 255, g /= 255, b /= 255;		 
+		var max = Math.max(r, g, b), min = Math.min(r, g, b);
+		var h, s, v = max;		 
+		var d = max - min;
+		s = max == 0 ? 0 : d / max;		 
+		if (max == min) {
+			h = 0; // achromatic
+		} else {
+			switch (max) {
+				case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+				case g: h = (b - r) / d + 2; break;
+				case b: h = (r - g) / d + 4; break;
+			}		
+			h /= 6;
+		}		 
+		return {'h' : h,'s' : s,'v' : v};
+	},
+	hsvToRgb : function(obj) {
+		var h = parseFloat(obj.h),
+			s = parseFloat(obj.s),
+			v = parseFloat(obj.v);
+		var r, g, b; 
+		var i = Math.floor(h * 6);
+		var f = h * 6 - i;
+		var p = v * (1 - s);
+		var q = v * (1 - f * s);
+		var t = v * (1 - (1 - f) * s);
+		switch (i % 6) {
+			case 0: r = v, g = t, b = p; break;
+			case 1: r = q, g = v, b = p; break;
+			case 2: r = p, g = v, b = t; break;
+			case 3: r = p, g = q, b = v; break;
+			case 4: r = t, g = p, b = v; break;
+			case 5: r = v, g = p, b = q; break;
+		}
+		return {'r': Math.round(r * 255), 'g': Math.round(g * 255), 'b': Math.round(b * 255)};		
+	}
+}

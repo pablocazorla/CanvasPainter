@@ -60,8 +60,8 @@ ui.prototype = {
 		},2000);
 	
 
-		//					this.presentation.style.display = 'none';
-		//				this.presentationBack.style.display = 'none';
+		//				this.presentation.style.display = 'none';
+		//			this.presentationBack.style.display = 'none';
 
 		return this;
 	},

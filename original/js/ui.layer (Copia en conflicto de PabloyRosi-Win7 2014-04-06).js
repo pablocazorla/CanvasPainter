@@ -49,32 +49,21 @@ layerCtrl.prototype = {
 		var layerStick = document.createElement('div'),
 			layerEye = document.createElement('span'),
 			layerTitle = document.createElement('span');
-			layerBlocked = document.createElement('span');
-			layerClipped = document.createElement('span');
 			
 		layerStick.className = 'layer-stick';
 		layerStick.id = 'lay-'+newLayer.id+'-'+app.currentDoc.setting.docID;
 		
 		layerEye.className = 'layer-stick-eye';
 		layerTitle.className = 'layer-stick-title';
-		layerTitle.innerHTML = newLayer.name;
-
-		layerBlocked.className = 'layer-stick-option blocked';
-		layerBlocked.title = 'Block layer';
-		layerClipped.className = 'layer-stick-option clipped';
-		layerClipped.title = 'Clip layer';
-
-
+		layerTitle.innerHTML = newLayer.name;			
 		
 		var container = getById('lfd-'+ app.currentDoc.setting.docID);	
 		container.appendChild(layerStick);
 		
 		layerStick.appendChild(layerEye);
 		layerStick.appendChild(layerTitle);
-		layerStick.appendChild(layerClipped);
-		layerStick.appendChild(layerBlocked);
 
-		this.setEventSticks(layerStick,layerEye,layerTitle,container,layerBlocked,layerClipped);
+		this.setEventSticks(layerStick,layerEye,layerTitle,container);
 		
 		
 		this.setLayerStickPositions();
@@ -91,6 +80,28 @@ layerCtrl.prototype = {
 		}		
 		return this;
 	},
+	toggleVisibleLayer : function(idLayer,flag){
+		if(flag){
+			getById('lay-'+idLayer+'-'+app.currentDoc.setting.docID).childNodes[0].className = 'layer-stick-eye';
+		}else{
+			getById('lay-'+idLayer+'-'+app.currentDoc.setting.docID).childNodes[0].className = 'layer-stick-eye closed';
+		}
+		return this;
+	},	
+	setCurrentLayer : function(layer){
+		try{getById('lfd-'+app.currentDoc.setting.docID).getElementsByClassName('layer-stick current')[0].className = 'layer-stick';}catch(e){}		
+		getById('lay-'+layer.id+'-'+app.currentDoc.setting.docID).className = 'layer-stick current';
+		this.sliderOpacityLayer.update(layer.opacity);
+		return this;
+	},
+	downLayer : function(idLayerDown,idLayer){
+		this.setLayerStickPositions();
+		return this;
+	},
+	upLayer : function(idLayerUp,idLayer){		
+		this.setLayerStickPositions();
+		return this;
+	},
 	removeLayer : function(idLayer){		
 		getById('lfd-'+app.currentDoc.setting.docID).removeChild(getById('lay-'+idLayer+'-'+app.currentDoc.setting.docID));		
 		return this;
@@ -98,28 +109,14 @@ layerCtrl.prototype = {
 	setLayerStickPositions : function(){
 		var num = 0;
 		for(var i = app.currentDoc.length - 1;i>=0;i--){
-			var layer = app.currentDoc.layers[i],
-				layerStick = getById('lay-'+layer.id+'-'+app.currentDoc.setting.docID),
-				layerClass = 'layer-stick';
-
-			if(i == app.currentDoc.currentLayer){
-				layerClass += ' current';
-				this.sliderOpacityLayer.update(layer.opacity);
-			}
-			if(!layer.visible) layerClass += ' hidden';
-			if(layer.clipped) layerClass += ' clipped';
-			if(layer.blocked) layerClass += ' blocked';
-
-
-			layerStick.className = layerClass;
-			layerStick.style.top = this.heightStick * num +'px';
+			getById('lay-'+app.currentDoc.layers[i].id+'-'+app.currentDoc.setting.docID).style.top = this.heightStick * num +'px';
 			num++;
 		}
 		num++;
 		getById('lfd-'+app.currentDoc.setting.docID).style.height = this.heightStick * num +'px';
 		return this;
 	},
-	setEventSticks : function(layerStick,layerEye,layerTitle,container,layerBlocked,layerClipped){
+	setEventSticks : function(layerStick,layerEye,layerTitle,container){
 
 
 		var self = this,
@@ -132,20 +129,14 @@ layerCtrl.prototype = {
 			endIndex = 0,
 			layerDragIndicator = container.getElementsByClassName('layer-drag-indicator')[0],
 			len = app.currentDoc.length,
-			layerStickClass = '',
-			setDraggingClass = false,
 			onMouseDown = function(e){
 				app.currentDoc.setCurrentLayer(layerID,true);				
 				dY = e.pageY - parseInt(window.getComputedStyle(layerStick).getPropertyValue('top'));
-				layerStickClass = layerStick.className;				
+				layerStick.className = 'layer-stick current dragging';
 				dragging = true;
 			},
 			onMouseMove = function(e){
 				if(dragging){
-					if(!setDraggingClass){
-						layerStick.className = layerStickClass+' dragging';
-						setDraggingClass = true;
-					}
 					moving = true;
 					top =  e.pageY - dY;
 					layerStick.style.top = top + 'px';
@@ -156,25 +147,23 @@ layerCtrl.prototype = {
 			},
 			onMouseUp = function(){
 				if(dragging){
-					dragging = false;
-					setDraggingClass = false;					
-					layerStick.className = layerStickClass;
+					dragging = false;					
+					layerStick.className = 'layer-stick current';
 					layerDragIndicator.style.top = '-5px';
 				}
 				if(moving){
 					moving = false;
-					app.currentDoc.changeLayerPosition(endIndex);					
+					
+						app.currentDoc.changeLayerPosition(endIndex);
+					
 				}
 			};
 
+
+
+
 		onClick(layerEye,function(){
 			app.currentDoc.toggleVisibleLayer(layerID);
-		});
-		onClick(layerBlocked,function(){
-			app.currentDoc.toggleBlockedLayer(layerID);
-		});
-		onClick(layerClipped,function(){
-			app.currentDoc.toggleClippedLayer(layerID);
 		});
 
 		layerTitle.addEventListener('mousedown', function(e){onMouseDown(e);},false);

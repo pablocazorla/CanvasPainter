@@ -1,1 +1,174 @@
-var palet=function(a){return this.init(a)};palet.prototype={init:function(a){this.setting=extend({id:"",onToogle:function(){}},a),this.open=!1,this.iconic=!1,this.canvasShopBack=document.getElementById("canvasShopBack"),this.pal=document.getElementById(this.setting.id),this.palContent=this.pal.getElementsByClassName("palet-content")[0],this.palClose=this.pal.getElementsByClassName("palet-close")[0],this.palSetIcon=this.pal.getElementsByClassName("palet-setIcon")[0],this.palStyleSave=this.pal.getElementsByClassName("palet-setting")[0],this.palTitle=this.pal.getElementsByClassName("palet-title")[0],this.palIcon=this.pal.getElementsByClassName("palet-icon")[0],this.palResize=null;var b=this.pal.getElementsByClassName("palet-resize");b.length>0&&(this.palResize=b[0]),this.startedPosition().setIconic().palClosing().palDragging().palResizing().setIconPosition()},startedPosition:function(){var a=this.palStyleSave.value.split(",");return this.pal.style.top=a[1],this.pal.style.left=a[2],this.pal.style.right=a[3],this.palContent.style.height=a[4],"none"!=a[0]?this.toogle(!0):this.toogle(!1),"true"==a[5]&&this.toogleIconic(!0),this},palClosing:function(){var a=this;return this.palClose.addEventListener("click",function(){a.toogle(!1)},!1),this},setIconic:function(){var a=this;return this.palSetIcon.addEventListener("click",function(){a.toogleIconic()},!1),this},setDefaultZindex:function(){for(var a=document.getElementsByClassName("palet"),b=0;b<a.length;b++)a[b].style.zIndex="9001";this.pal.style.zIndex="9501"},palDragging:function(){var b,c,a=this,d=!1,e=function(e){d=!0,b=e.pageX-a.pal.offsetLeft,c=e.pageY-a.pal.offsetTop,a.pal.style.left=a.pal.offsetLeft+"px",a.pal.style.right="auto",a.setDefaultZindex()},f=function(e){if(d){a.pal.style.left=e.pageX-b+"px";var f=e.pageY-c;50>f&&(f=50),a.pal.style.top=f+"px"}},g=function(){d&&(a.savePalStyle().setIconPosition(),d=!1)};return this.palTitle.addEventListener("mousedown",function(a){e(a)},!1),document.body.addEventListener("mousemove",function(a){f(a)},!1),document.body.addEventListener("mouseup",function(){g()},!1),this},palResizing:function(){if(null!=this.palResize){var c,d,a=this,b=!1,e=function(e){d=e.pageY,c=a.palResize.offsetTop,a.canvasShopBack.className="palet-resizing",b=!0,a.setDefaultZindex()},f=function(e){b&&(a.palContent.style.height=e.pageY-d+c+"px")},g=function(){b&&(a.savePalStyle(),a.canvasShopBack.className="",b=!1)};this.palResize.addEventListener("mousedown",function(a){e(a)},!1),document.body.addEventListener("mousemove",function(a){f(a)},!1),document.body.addEventListener("mouseup",function(){g()},!1)}return this},savePalStyle:function(){var a=window.getComputedStyle(this.pal),b=window.getComputedStyle(this.palContent);return this.palStyleSave.value=a.getPropertyValue("display")+","+a.getPropertyValue("top")+","+a.getPropertyValue("left")+","+a.getPropertyValue("right")+","+b.getPropertyValue("height")+","+this.iconic,this},toogle:function(a){return a&&!this.open&&(this.pal.style.display="block",this.open=!0),!a&&this.open&&(this.pal.style.display="none",this.open=!1),this.savePalStyle(),this.setting.onToogle(),this},toogleIconic:function(a){return this.iconic&&1!=a?(this.pal.className="palet",this.palSetIcon.title="Minimize panel to icon",this.iconic=!1):(this.pal.className="palet iconic",this.palSetIcon.title="Maximize panel",this.iconic=!0),this.savePalStyle(),this.setting.onToogle(),this},setIconPosition:function(){var a,b=parseInt(window.getComputedStyle(this.pal).getPropertyValue("left")),c=document.getElementById("canvasShopBack").getBoundingClientRect().width/2;return a=c>=b?2:this.palContent.getBoundingClientRect().width-52,this.palIcon.style.left=a+"px",this}};
+// Palet
+var palet = function(opt){
+	return this.init(opt);
+}
+palet.prototype = {
+	init : function(opt){
+		this.setting = extend({
+			id : '',
+			onToogle : function(){}
+		},opt);
+
+		this.open = false;
+		this.iconic = false;		
+
+		this.canvasShopBack = document.getElementById('canvasShopBack');
+		this.pal = document.getElementById(this.setting.id);
+		this.palContent = this.pal.getElementsByClassName('palet-content')[0];
+		this.palClose = this.pal.getElementsByClassName('palet-close')[0];
+		this.palSetIcon = this.pal.getElementsByClassName('palet-setIcon')[0];
+		this.palStyleSave = this.pal.getElementsByClassName('palet-setting')[0];
+		this.palTitle = this.pal.getElementsByClassName('palet-title')[0];
+		this.palIcon = this.pal.getElementsByClassName('palet-icon')[0];
+		this.palResize = null;
+
+		var palRes = this.pal.getElementsByClassName('palet-resize');
+		if(palRes.length>0) this.palResize = palRes[0];
+
+		this.startedPosition().setIconic().palClosing().palDragging().palResizing().setIconPosition();
+		
+	},
+	startedPosition : function(){
+		var style = this.palStyleSave.value.split(',');
+		
+		this.pal.style.top = style[1];
+		this.pal.style.left = style[2];
+		this.pal.style.right = style[3];
+		this.palContent.style.height = style[4];
+		if(style[0]!='none'){
+			this.toogle(true);
+		}else{
+			this.toogle(false);
+		}
+
+		if(style[5]=='true') this.toogleIconic(true);
+
+		return this;
+	},
+	palClosing : function(){
+		var self = this;
+		this.palClose.addEventListener('click', function(){
+			self.toogle(false);			
+		},false);
+		return this;
+	},
+	setIconic : function(){
+		var self = this;
+		this.palSetIcon.addEventListener('click', function(){
+			self.toogleIconic();			
+		},false);
+		return this;
+	},
+	setDefaultZindex : function(){
+		var paletCollection = document.getElementsByClassName('palet');
+		for(var i = 0; i < paletCollection.length; i++){
+			paletCollection[i].style.zIndex = '9001';		
+		}
+		this.pal.style.zIndex = '9501';
+	},
+	palDragging : function(){
+		var self = this,dx,dy,
+			dragging = false,			
+			
+			onMouseDown = function(e){
+				dragging = true;
+				dx = e.pageX - self.pal.offsetLeft;
+				dy = e.pageY - self.pal.offsetTop;
+				self.pal.style.left = self.pal.offsetLeft + 'px';
+				self.pal.style.right = 'auto';
+				self.setDefaultZindex();				
+			},
+			onMouseMove = function(e){
+				if(dragging){
+					self.pal.style.left = e.pageX - dx + 'px';
+					var top = e.pageY - dy;
+					if(top <50) top = 50;					
+					self.pal.style.top = top + 'px';
+				}
+			},
+			onMouseUp = function(){
+				if(dragging){
+					self.savePalStyle().setIconPosition();
+					dragging = false;
+				}
+			};
+			this.palTitle.addEventListener('mousedown', function(e){onMouseDown(e);},false);
+			document.body.addEventListener('mousemove', function(e){onMouseMove(e);},false);
+			document.body.addEventListener('mouseup', function(){onMouseUp();},false);
+		return this;
+	},
+	palResizing : function(){
+		if(this.palResize != null){
+			var self = this,
+				resizing = false,
+				dy,startMouseY,				
+				onMouseDown = function(e,res){			
+					startMouseY = e.pageY;
+					dy = self.palResize.offsetTop;					
+					self.canvasShopBack.className = 'palet-resizing';
+					resizing = true;
+					self.setDefaultZindex();
+				},
+				onMouseMove = function(e){
+					if(resizing){
+						self.palContent.style.height = (e.pageY - startMouseY) + dy + 'px';
+					}
+				},
+				onMouseUp = function(){
+					if(resizing){
+						self.savePalStyle();					
+						self.canvasShopBack.className = '';
+						resizing = false;
+					}
+				};
+			this.palResize.addEventListener('mousedown', function(e){onMouseDown(e);},false);			
+			document.body.addEventListener('mousemove', function(e){onMouseMove(e);},false);
+			document.body.addEventListener('mouseup', function(){onMouseUp();},false);
+		}
+		return this;
+	},
+	savePalStyle : function(){
+		var style = window.getComputedStyle(this.pal),
+			styleContent = window.getComputedStyle(this.palContent);		
+		this.palStyleSave.value = style.getPropertyValue('display')+','+style.getPropertyValue('top') + ',' + style.getPropertyValue('left') + ',' + style.getPropertyValue('right') + ',' + styleContent.getPropertyValue('height')+','+this.iconic;
+		return this;
+	},
+	toogle : function(flag){
+		if(flag && !this.open){
+			this.pal.style.display = 'block';
+			this.open = true;
+		}
+		if(!flag && this.open){
+			this.pal.style.display = 'none';
+			this.open = false;
+		}
+		this.savePalStyle();
+		this.setting.onToogle();
+		return this;
+	},
+	toogleIconic : function(flag){
+		if(!this.iconic || flag==true){
+			this.pal.className = 'palet iconic';
+			this.palSetIcon.title = 'Maximize panel';
+			this.iconic = true;
+		}else{
+			this.pal.className = 'palet';
+			this.palSetIcon.title = 'Minimize panel to icon';
+			this.iconic = false;
+		}
+		this.savePalStyle();
+		this.setting.onToogle();
+		return this;
+	},
+	setIconPosition : function () {
+		var left, leftPal = parseInt(window.getComputedStyle(this.pal).getPropertyValue('left')),
+			middle = document.getElementById('canvasShopBack').getBoundingClientRect().width/2;
+		if(leftPal<=middle){
+			left = 2;
+		}else{
+			left = this.palContent.getBoundingClientRect().width - 52;
+		}
+		this.palIcon.style.left = left + 'px';
+		return this;
+	}
+}

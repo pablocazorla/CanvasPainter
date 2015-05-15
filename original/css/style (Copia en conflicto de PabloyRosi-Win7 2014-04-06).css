@@ -51,20 +51,11 @@ input{border-color:#BBB;background-color: #FFF;}
 .color-cnvs canvas,
 #color-ctrl-current-sample,
 #brush-preview-cnv{border-color:#BBB}
-
-/* color */
-.layer-stick-option{border-color: #AAA}
-.layer-stick.clipped .layer-stick-option.clipped,
-.layer-stick.blocked .layer-stick-option.blocked{background-color: #CCC;box-shadow: 0 1px 1px rgba(0,0,0,.4) inset}
-
-
-
-
 /* Sprite */
-#doc-tabs li .tab-close,.icon-start,.layer-stick-option,
+#doc-tabs li .tab-close,.icon-start,
 .palet-content .palet-close,.palet-setIcon,
 .btn-icon,
-.layer-stick-eye,.palet-icon,.layer-stick.clipped .layer-stick-eye:after
+.layer-stick-eye,.palet-icon
 {background-image: url('../img/sprite-light.png');background-repeat: no-repeat}
 .palet-tabs{border-color:#BBB}
 .palet-tabs .tab-palet{border-color:#BBB;background-color: #DDD}
@@ -275,18 +266,9 @@ border-width:1px;border-style:solid;box-shadow:0 2px 3px rgba(0,0,0,.2);display:
 .layer-stick-eye{display:block;top:2px;bottom:2px;left:2px;width: 19px;border-width:0 1px 0 0;border-style:solid; cursor: pointer;
 background-position: -100px 0}
 
-.layer-stick.hidden .layer-stick-eye{background-position: -120px 0}
+.layer-stick-eye.closed{background-position: -120px 0}
 
-.layer-stick-title{display:block;position: absolute;top:0;bottom:0;left:30px;right:32px;overflow: hidden;}
-.layer-stick-option{display:block;position: absolute;top:7px;width: 10px;height: 10px;border-width: 1px;border-style: solid;border-radius: 2px;right:3px;cursor: pointer;background-position: -10px -60px}
-
-
-.layer-stick-option.clipped{right:17px;background-position: 0 -60px}
-
-.layer-stick.clipped .layer-stick-title{left:45px;}
-.layer-stick.clipped .layer-stick-eye:after{display:block;position: absolute;top:0;bottom:0;right:-22px;width:20px;content: '';background-position: -40px -40px}
-
-
+.layer-stick-title{display:block;position: absolute;top:0;bottom:0;left:30px;right:5px;overflow: hidden;}
 
 
 
@@ -424,15 +406,6 @@ border-radius:3px;text-align:center;padding:0 8px;min-width: 80px;cursor: pointe
 
 #doc-container{position:fixed;top:52px;bottom:0;left:0;right:0;overflow:hidden}
 
-#doc-container.brush .doc-canvas{cursor:url('../img/cursors/brush.png') 7 7,default;}
-#doc-container.eraser .doc-canvas{cursor:url('../img/cursors/eraser.png') 7 7,default;}
-#doc-container.picker .doc-canvas{cursor:url('../img/cursors/picker.png') 4 22,crosshair;}
-#doc-container.hand .doc-canvas{cursor:url('../img/cursors/hand.png') 12 12,move;}
-#doc-container.select .doc-canvas{cursor:crosshair;}
-
-/*#doc-container.s .doc-canvas{cursor:crosshair;}*/
-
-
 
 .doc-canvas{
 	position:relative;top:60px;left:300px;
@@ -445,6 +418,8 @@ border-radius:3px;text-align:center;padding:0 8px;min-width: 80px;cursor: pointe
 	transition: transform .2s;
 	-moz-transition: transform .2s;
 	-wetkit-transition: transform .2s;
+	cursor: default;
+
 }
 
 

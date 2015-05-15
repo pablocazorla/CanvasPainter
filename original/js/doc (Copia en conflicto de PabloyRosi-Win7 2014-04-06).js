@@ -144,7 +144,6 @@ doc.prototype = {
 				name : 'Layer-'+numID,
 				opacity : 100,
 				visible : true,
-				blocked : false,
 				imagedata : null,
 				clipped : false,
 				clipLayer : null
@@ -232,34 +231,7 @@ doc.prototype = {
 					this.layers[i].visible = true;
 				}
 				this.updateAllShow();
-				app.ui.layerCtrl.setLayerStickPositions();
-			}
-		}
-		return this;
-	},
-	toggleClippedLayer : function(idLayer){
-		for(var i = 1; i < this.length;i++){
-			if(this.layers[i].id == idLayer){
-				if(this.layers[i].clipped){
-					this.layers[i].clipped = false;
-				}else{
-					this.layers[i].clipped = true;
-				}
-				this.updateAllShow();
-				app.ui.layerCtrl.setLayerStickPositions();
-			}
-		}
-		return this;
-	},
-	toggleBlockedLayer : function(idLayer){
-		for(var i = 0; i < this.length;i++){
-			if(this.layers[i].id == idLayer){
-				if(this.layers[i].blocked){
-					this.layers[i].blocked = false;
-				}else{
-					this.layers[i].blocked = true;
-				}
-				app.ui.layerCtrl.setLayerStickPositions();
+				app.ui.layerCtrl.toggleVisibleLayer(idLayer,this.layers[i].visible);
 			}
 		}
 		return this;
@@ -272,7 +244,7 @@ doc.prototype = {
 		}else{
 			this.currentLayer = num;
 		}	
-		app.ui.layerCtrl.setLayerStickPositions();
+		app.ui.layerCtrl.setCurrentLayer(this.layers[this.currentLayer]);
 		this.updateAllShow();
 		//this.setSelection();
 		return this;
@@ -321,11 +293,7 @@ doc.prototype = {
 		for(var i = 0;i<this.length;i++){
 
 			if(this.layers[i].clipped){
-				if(i==0){
-					this.layers[i].clipped = false;
-				}else{
-					this.layers[i].clipLayer = clipLayerBottom;
-				}				
+				this.layers[i].clipLayer = clipLayerBottom;
 			}else{
 				clipLayerBottom = i;
 			}
@@ -373,7 +341,7 @@ doc.prototype = {
 
 		switch(this.currentTool){
 			case 'brush':
-				if(!self.painting && self.layers[self.currentLayer].visible && !self.layers[self.currentLayer].blocked){
+				if(!self.painting && self.layers[self.currentLayer].visible){
 					self.painting = true;
 					self.app.brush.update().draw(mx,my);
 				}

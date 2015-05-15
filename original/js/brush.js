@@ -1,1 +1,225 @@
-var brush=function(g){return this.init(g)};brush.prototype={c:null,spacingPx:1,rgb:"rgba(0,0,0,",colorDirt:"rgb(0,0,0)",init:function(g){this.setting=extend({radius:20,type:"circle",spacing:.15,opacity:1,hardness:1,rotation:0,roundness:1,blending:0,dirtcolor:!1,randomOpacity:0,randomHardness:0,randomRotation:0,randomRoundness:0,randomRadius:0,randomScattering:0,randomColor:0},g);return this},changeSetting:function(g){this.setting=extend(this.setting,g);return this},draw:function(g,B,k,r){var c=this.rgb,d=this.setting.hardness,s=this.setting.rotation,l=this.setting.roundness,a=this.setting.radius,h=this.setting.opacity,p=this.setting.blending,C=0,D=0,m=1;0<this.setting.randomOpacity&&(h+=this.setting.randomOpacity*(2*Math.random()-1));k&&(this.cRenderer=k,c="rgba(0,0,0,");this.cRenderer.fillStyle=c+h+")";r&&(a=r);this.cRenderer.globalCompositeOperation="eraser"==app.currentTool&&void 0==k?"destination-out":"source-over";if(0<p&&void 0==k){for(var c=app.forecolor.r(),t=app.forecolor.g(),u=app.forecolor.b(),m=this.imageData.data.length,b=Math.round(.7*a),e=g-b,f=B-b,v=0,q=0,w=0,x=0,y=0,z=0,A=0,n=0,E=0;9>E;E++){n=4*(e+f*this.w);if(0<n&&n<m){var F=this.imageData.data[n+3],A=A+F;w++;0<F&&(x+=this.imageData.data[n],y+=this.imageData.data[n+1],z+=this.imageData.data[n+2],q++)}v++;e+=b;3<=v&&(e=g-b,f+=b,v=0)}b=c;e=t;f=u;m=0;0<q&&(b=Math.round(c-p*(c-x/q)),e=Math.round(t-p*(t-y/q)),f=Math.round(u-p*(u-z/q)));0<w&&(m=Math.round(100*(h-p*(h-A/w/255)))/100);this.cRenderer.fillStyle="rgba("+b+","+e+","+f+","+m*h+")";c="rgba("+b+","+e+","+f+",";this.cRendererolorDirt="rgb("+b+","+e+","+f+")"}0<this.setting.randomColor&&!k&&(b=Math.round(app.forecolor.r()+254*this.setting.randomColor*(2*Math.random()-1)),e=Math.round(app.forecolor.g()+254*this.setting.randomColor*(2*Math.random()-1)),f=Math.round(app.forecolor.b()+254*this.setting.randomColor*(2*Math.random()-1)),0>b&&(b=0),255<b&&(b=255),0>e&&(e=0),255<e&&(e=255),0>f&&(f=0),255<f&&(f=255),c="rgba("+b+","+e+","+f+",",this.cRenderer.fillStyle=c+h+")");0<this.setting.randomRotation&&(s+=180*this.setting.randomRotation*(2*Math.random()-1));0<this.setting.randomRoundness&&(l+=this.setting.randomRoundness*(2*Math.random()-1),.01>l&&(l=.01),1<l&&(l=1));0<this.setting.randomHardness&&(d+=this.setting.randomHardness*(2*Math.random()-1),.1>d&&(d=.1),.99<d&&(d=.99));0<this.setting.randomRadius&&void 0==r&&(a+=this.setting.radius*this.setting.randomRadius*(2*Math.random()-1));1>d&&(0<this.setting.randomHardness||0<this.setting.randomRadius||0<this.setting.randomColor||void 0!=r)&&(this.radgradRenderer=this.cRenderer.createRadialGradient(0,0,0,0,0,a),this.radgradRenderer.addColorStop(0,c+d*h+")"),this.radgradRenderer.addColorStop(d,c+d*h+")"),this.radgradRenderer.addColorStop(1,c+"0)"));1>d&&0<p&&(this.radgradRenderer=this.cRenderer.createRadialGradient(0,0,0,0,0,a),this.radgradRenderer.addColorStop(0,c+d*h*m+")"),this.radgradRenderer.addColorStop(d,c+d*h*m+")"),this.radgradRenderer.addColorStop(1,c+"0)"));0<this.setting.randomScattering&&void 0==k&&(C=a*this.setting.randomScattering*50*(2*Math.random()-1),D=a*this.setting.randomScattering*50*(2*Math.random()-1));this.cRenderer.translate(g+C,B+D);this.cRenderer.rotate(s*Math.PI/180);this.cRenderer.scale(1,l);switch(this.setting.type){case "circle":1==d?(this.cRenderer.beginPath(),this.cRenderer.arc(0,0,a,0,2*Math.PI,!1),this.cRenderer.fill(),this.cRenderer.closePath()):(this.cRenderer.fillStyle=this.radgradRenderer,this.cRenderer.fillRect(-a,-a,2*a,2*a));break;case "square":this.cRenderer.fillRect(-a,-a,2*a,2*a)}this.cRenderer.setTransform(1,0,0,1,0,0);void 0==k&&(this.cRenderer.globalCompositeOperation="source-over",app.currentDoc.updateShowCurrent());return this},setOpacity:function(g){this.setting.opacity=""+g;return this},update:function(){this.rgb=app.forecolor.rgbaHalfString();this.spacingPx=2*this.setting.spacing*this.setting.radius;this.cRenderer=app.currentDoc.cRenderer;this.cRenderer.fillStyle=this.rgb+this.setting.opacity+")";this.radgradRenderer=this.cRenderer.createRadialGradient(0,0,0,0,0,this.setting.radius);this.radgradRenderer.addColorStop(0,this.rgb+this.setting.hardness*this.setting.opacity+")");this.radgradRenderer.addColorStop(this.setting.hardness,this.rgb+this.setting.hardness*this.setting.opacity+")");this.radgradRenderer.addColorStop(1,this.rgb+"0)");this.setImageData();return this},setImageData:function(){this.w=app.currentDoc.setting.width;this.imageData=this.cRenderer.getImageData(0,0,this.w,app.currentDoc.setting.height);return this},dirtColor:function(){0<this.setting.blending&&this.setting.dirtcolor&&app.ui.color.setColor(this.cRendererolorDirt);return this}};
+// BRUSH
+var brush = function(opt){
+	return this.init(opt);
+}
+brush.prototype = {
+	c : null,
+	spacingPx : 1,
+	rgb : 'rgba(0,0,0,',
+	colorDirt : 'rgb(0,0,0)',
+	init : function(opt){
+		this.setting = extend({
+			radius : 20,
+			type : 'circle',
+			spacing : .15,
+			opacity : 1,
+			hardness : 1,
+			rotation : 0,
+			roundness : 1,
+			blending :0,
+			dirtcolor : false,			
+			randomOpacity : 0,
+			randomHardness : 0,
+			randomRotation : 0,
+			randomRoundness : 0,
+			randomRadius : 0,
+			randomScattering : 0,
+			randomColor : 0
+		},opt);
+		return this;
+	},
+	changeSetting : function (opt){
+		this.setting = extend(this.setting,opt);
+		return this;
+	},
+	draw : function(x,y,customC,customRadius){
+		var	rgb = this.rgb,
+			hardness = this.setting.hardness,
+			rotation = this.setting.rotation,
+			roundness = this.setting.roundness,
+			radius = this.setting.radius,
+			opacity = this.setting.opacity,
+			blending = this.setting.blending,
+			rsX = 0,
+			rsY = 0,
+			ablend = 1;	
+
+
+		if(this.setting.randomOpacity>0){opacity = opacity + this.setting.randomOpacity*(2*Math.random()-1);}
+
+		// 1. Custom context C
+		if(customC){
+			this.cRenderer = customC;
+			rgb = 'rgba(0,0,0,';
+		}
+		this.cRenderer.fillStyle = rgb+opacity+')';
+		if(customRadius){radius = customRadius;}
+
+		// 2. Tool Type
+		if(app.currentTool == 'eraser' && customC == undefined){
+			this.cRenderer.globalCompositeOperation = "destination-out";
+		}else{
+			this.cRenderer.globalCompositeOperation = "source-over";			
+		}
+		if(blending > 0 && customC == undefined){
+				var rCurrent = app.forecolor.r(),
+					gCurrent = app.forecolor.g(),
+					bCurrent = app.forecolor.b(),
+					len = this.imageData.data.length,
+					fact = Math.round(0.7*radius),
+					xInit = x -fact,
+					yInit = y -fact,
+					col = 0,
+					count = 0,
+					countAlpha = 0,
+					rp=0,
+					gp=0,
+					bp=0,
+					ap=0,
+					num=0;
+				for(var i=0;i<9;i++){
+					num = 4 * (xInit + yInit * this.w);
+					if(num>0 && num < len){
+						var alp = this.imageData.data[num+3];						
+						ap += alp;
+						countAlpha++;
+						if(alp > 0){
+							rp += this.imageData.data[num];
+							gp += this.imageData.data[num+1];
+							bp += this.imageData.data[num+2];
+							count++;
+						}						
+					}
+					col++;
+					xInit += fact;
+					if(col>=3){
+						xInit = x -fact;
+						yInit += fact;
+						col = 0;
+					}
+				}
+				var r = rCurrent,
+					g = gCurrent,
+					b = bCurrent;
+				ablend = 0;
+				if(count>0){
+					r = Math.round(rCurrent - blending*(rCurrent - rp/count));
+					g = Math.round(gCurrent - blending*(gCurrent - gp/count));
+					b = Math.round(bCurrent - blending*(bCurrent - bp/count));					
+				}
+				if(countAlpha>0){
+					ablend = Math.round((opacity - blending*(opacity - ((ap/countAlpha)/255)))*100)/100;
+				}
+				this.cRenderer.fillStyle = 'rgba('+r+','+g+','+b+','+ablend*opacity+')';
+					rgb = 'rgba('+r+','+g+','+b+',';
+				this.cRendererolorDirt = 'rgb('+r+','+g+','+b+')';
+			}
+
+		// 3. Random
+		
+		if(this.setting.randomColor>0 && !customC){
+			var r = Math.round(app.forecolor.r() + this.setting.randomColor*254*(2*Math.random()-1)),
+				g = Math.round(app.forecolor.g() + this.setting.randomColor*254*(2*Math.random()-1)),
+				b = Math.round(app.forecolor.b() + this.setting.randomColor*254*(2*Math.random()-1));			
+			if(r < 0) r = 0;if(r > 255) r = 255;
+			if(g < 0) g = 0;if(g > 255) g = 255;
+			if(b < 0) b = 0;if(b > 255) b = 255;
+			rgb = 'rgba('+r+','+g+','+b+',';			
+			this.cRenderer.fillStyle = rgb+opacity+')';
+			
+		}			
+		if(this.setting.randomRotation>0){rotation += 180*this.setting.randomRotation*(2*Math.random()-1);}
+		if(this.setting.randomRoundness>0){
+			roundness += this.setting.randomRoundness*(2*Math.random()-1);
+			if(roundness<0.01) roundness = 0.01;if(roundness>1) roundness = 1;
+		}
+		if(this.setting.randomHardness>0){
+			hardness += this.setting.randomHardness*(2*Math.random()-1);
+			if(hardness<0.1) hardness = 0.1;if(hardness>0.99) hardness = 0.99;
+		}
+		if(this.setting.randomRadius>0 && customRadius == undefined){
+			radius += this.setting.radius*this.setting.randomRadius*(2*Math.random()-1);				
+		}
+		if(hardness<1 && (this.setting.randomHardness>0 || this.setting.randomRadius>0 || this.setting.randomColor>0 || customRadius != undefined)){
+			this.radgradRenderer = this.cRenderer.createRadialGradient(0,0,0,0,0,radius);
+			this.radgradRenderer.addColorStop(0, rgb+(hardness*opacity)+')');
+			this.radgradRenderer.addColorStop(hardness, rgb+(hardness*opacity)+')');
+			this.radgradRenderer.addColorStop(1, rgb+'0)');
+		}
+		
+		if(hardness<1 && blending > 0){
+			this.radgradRenderer = this.cRenderer.createRadialGradient(0,0,0,0,0,radius);
+			this.radgradRenderer.addColorStop(0, rgb+(hardness*opacity*ablend)+')');
+			this.radgradRenderer.addColorStop(hardness, rgb+(hardness*opacity*ablend)+')');
+			this.radgradRenderer.addColorStop(1, rgb+'0)');
+		}
+
+		if(this.setting.randomScattering>0 && customC == undefined){
+			rsX = radius * this.setting.randomScattering*50*(2*Math.random()-1);
+			rsY = radius * this.setting.randomScattering*50*(2*Math.random()-1);
+		}
+		this.cRenderer.translate(x+rsX,y+rsY);
+		this.cRenderer.rotate(rotation * Math.PI / 180);
+		this.cRenderer.scale(1,roundness);					
+					
+		switch(this.setting.type){
+			case 'circle':
+				if(hardness == 1){					
+					this.cRenderer.beginPath();
+					this.cRenderer.arc(0, 0, radius, 0, Math.PI*2, false);
+					this.cRenderer.fill();
+					this.cRenderer.closePath();
+				}else{
+					
+					  // draw shape
+					this.cRenderer.fillStyle = this.radgradRenderer;
+					this.cRenderer.fillRect(-radius,-radius,2*radius,2*radius);
+				}
+				break;
+			case 'square':					
+				this.cRenderer.fillRect(-radius,-radius,2*radius,2*radius);			
+				break;
+			default:						
+				//
+		}
+		this.cRenderer.setTransform(1,0,0,1,0,0);
+		if(customC == undefined){
+			this.cRenderer.globalCompositeOperation = "source-over";
+			app.currentDoc.updateShowCurrent();
+		}
+		return this;		
+	},
+	setOpacity : function(val){
+		this.setting.opacity = ''+val;
+		return this;			
+	},
+	update: function(){	
+		this.rgb = app.forecolor.rgbaHalfString();		
+		this.spacingPx = 2 * this.setting.spacing * this.setting.radius;
+
+		this.cRenderer = app.currentDoc.cRenderer;
+		this.cRenderer.fillStyle = this.rgb+this.setting.opacity+')';
+
+		this.radgradRenderer = this.cRenderer.createRadialGradient(0,0,0,0,0,this.setting.radius);
+		this.radgradRenderer.addColorStop(0, this.rgb+(this.setting.hardness*this.setting.opacity)+')');
+		this.radgradRenderer.addColorStop(this.setting.hardness, this.rgb+(this.setting.hardness*this.setting.opacity)+')');
+		this.radgradRenderer.addColorStop(1, this.rgb+'0)');
+
+		this.setImageData();
+		return this;
+	},
+	setImageData : function(){
+		this.w = app.currentDoc.setting.width;
+		var h = app.currentDoc.setting.height;
+
+
+		this.imageData = this.cRenderer.getImageData(0, 0, this.w, h);
+		return this;
+	},
+	dirtColor : function(){
+		if(this.setting.blending > 0 && this.setting.dirtcolor){
+			app.ui.color.setColor(this.cRendererolorDirt);
+		}
+		return this;
+	}	
+}
